@@ -24,7 +24,7 @@ class ApproveRequestController extends Controller
         if ($training_request) {
             $query = DB::table('training_requests')->where('training_request_id', $training_request->training_request_id)
                 ->update([
-                    'request_status' => $request->request_status
+                    'status' => $request->request_status
                 ]);
                 
             // If $query == 1 email sent
@@ -43,7 +43,7 @@ class ApproveRequestController extends Controller
                     $query->save();
 
                     $approvers = Approver::all();
-    
+
                     foreach ($approvers as $value) {
                         $approval_status = new ApprovalStatus;
                         $approval_status->training_request_id = $training_request->training_request_id;
@@ -52,8 +52,7 @@ class ApproveRequestController extends Controller
 
                         $approver_id = $approval_status->approver_id;
                         $approver = Approver::findOrFail($approver_id);
-                        $training_program = TrainingProgram::findOrFail($training_request->training_program_id);
-
+                      
                         $batch_mails->save_to_batch([
                             'email_category_id' => config('constants.superior_approval'),
                             'subject'           => 'Training Request Approval',
@@ -61,14 +60,13 @@ class ApproveRequestController extends Controller
                             'recipient'         => $approver->email,
                             'title'             => 'Training Request Approval',
                             'message'           => 'Greetings! '. $training_request->contact_person .' of <strong>'. $training_request->company_name .'</strong> is requesting for a <br/>
-                            training program                                                        : '. $training_program->program_title .' <br/>
-                            on       '. Carbon::parse($training_request->training_date)->format('M d, Y D - h: i A'),
+                            training program on '. Carbon::parse($training_request->training_date)->format('M d, Y'),
                             'cc'         => null,
                             'attachment' => null,
                             'accept_url' => route('superior_approval', ['approval_status_id' => $approval_status->approval_status_id]),
                             'deny_url'   => route('superior_disapproval', ['approval_status_id' => $approval_status->approval_status_id])
                         ]);
-                    }
+                    }  
                     return response()->json($query);
                 }
             }

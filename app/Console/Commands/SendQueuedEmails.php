@@ -51,7 +51,7 @@ class SendQueuedEmails extends Command
 				$mail = $this->mail->send([
 					'email_category_id' => $value['email_category_id'],
 					'subject'           => $value['subject'],
-					'sender'            => $value['sender'],
+					'sender'            => config('mail.from.address'),
 					'recipient'         => $value['recipient'],
 					'cc'                => $value['cc'],
 					'attachment'        => $value['attachment'],

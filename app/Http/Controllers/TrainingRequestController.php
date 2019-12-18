@@ -13,6 +13,7 @@ use App\Services\BatchMails;
 use App\Services\SendEmail;
 use App\TrainingProgram;
 use Carbon\Carbon;
+use App\Person;
 use App\Http\Requests;
 
 class TrainingRequestController extends Controller
@@ -106,12 +107,12 @@ class TrainingRequestController extends Controller
 	{
 		return response()->json(
 			TrainingRequest::with([
-				'training_program',
+				'training_request_programs.training_program',
 				'unit_model',
-				'trainor_designations.trainor',
 				'dealer_details',
 				'approval_statuses'
 			])
+			->orderBy('created_at', 'desc')
 			->get()
 		);
 	}
@@ -123,7 +124,7 @@ class TrainingRequestController extends Controller
 				'customer_dealers',
 				'customer_models',
 				'customer_participants',
-				'training_program',
+				'training_request_programs.training_program',
 				'unit_model',
 				'dealer_details'
 			])

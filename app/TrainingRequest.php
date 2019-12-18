@@ -17,14 +17,15 @@ class TrainingRequest extends Model
         'training_venue',
         'training_address',
         'training_program_id', // Training Program
-        'unit_model_id' // Focus of training
+        'unit_model_id', // Focus of training
+        'training_time',
+        'remarks'
     ];
     protected $primaryKey = 'training_request_id';
     public $timestamps = false;
 
-    public function training_program()
-    {
-        return $this->belongsTo('App\TrainingProgram', 'training_program_id', 'training_program_id');
+    public function training_request_programs(){
+        return $this->hasMany('App\TrainingRequestPrograms', 'training_request_id', 'training_request_id');
     }
 
     public function unit_model()

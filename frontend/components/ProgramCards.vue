@@ -45,12 +45,12 @@
                     PHOTOS
                   </v-btn>
                   <v-btn 
-                  @click="updateForm('training_program_id', item.training_program_id)" 
-                  :color="`${item.training_program_id === form.training_program_id ? 'success' : ''}`" 
+                  @click="updateForm('training_program_ids', item.training_program_id)" 
+                  :color="`${ isProgramSelected(item.training_program_id) ? 'success' : ''}`" 
                   small
                   >
-                    {{ item.training_program_id === form.training_program_id ? 'SELECTED &nbsp;' : 'SELECT' }}
-                    <i v-if="item.training_program_id === form.training_program_id" 
+                    {{ isProgramSelected(item.training_program_id) ? 'SELECTED &nbsp;' : 'SELECT' }}
+                    <i v-if="isProgramSelected(item.training_program_id)" 
                     class="fa fa-check-circle"></i>
                   </v-btn>
                 </v-card-actions>
@@ -70,7 +70,7 @@
           <v-spacer></v-spacer>
           <v-btn 
           @click="next"
-          :disabled="!this.form.training_program_id ? true : false"
+          :disabled="!this.form.training_program_ids.length > 0 ? true : false"
           color="red darken-1" 
           flat
           >
@@ -146,8 +146,36 @@ export default {
         isOpen: false
       }
     },
+    isProgramSelected(training_program_id){
+      var training_program_ids = this.form.training_program_ids;
+      for(var x in training_program_ids){
+        if(training_program_ids[x] === training_program_id){
+          return true;
+        }
+      }
+      return false;
+    },
+    getProgramIndex(training_program_id){
+      var training_program_ids = this.form.training_program_ids;
+      for(var x in training_program_ids){
+        if(training_program_ids[x] === training_program_id){
+          return x;
+        }
+      }
+      return false;
+    },
     updateForm (field, value) {
-      this.$store.commit('request/UPDATE_FORM', {key:field,value:value})
+      if(this.isProgramSelected(value)){
+        var index = this.getProgramIndex(value);
+        this.$store.commit('request/SPLICE_FORM', {key:field,value:index});
+      }
+      else {
+        if(this.form.training_program_ids.length >= 2){
+          alert('Only two training can be selected.');
+          return false;
+        }
+        this.$store.commit('request/PUSH_FORM', {key:field,value:value});
+      }
     },
     back () {
       this.$store.commit('request/BACK_PAGE')

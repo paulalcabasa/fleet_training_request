@@ -65,16 +65,15 @@ class TrainingRequestController extends Controller
 	public function store(Request $request, BatchMails $batch_mails)
 	{
 		$this->validate($request, [
-			'company_name' => 'required|string',
-			'office_address' => 'required|string',
-			'contact_person' => 'required|string',
-			'email' => 'required|string',
-			'position' => 'required|string',
-			'contact_number' => 'required',
-			'training_date' => 'required|date',
-			'training_venue' => 'required|string',
+			'company_name'     => 'required|string',
+			'office_address'   => 'required|string',
+			'contact_person'   => 'required|string',
+			'email'            => 'required|string',
+			'position'         => 'required|string',
+			'contact_number'   => 'required',
+			'training_date'    => 'required|date',
+			'training_venue'   => 'required|string',
 			'training_address' => 'required|string',
-			'training_program_id' => 'required|integer|exists:training_programs,training_program_id',
 			'unit_model_id' => 'required|integer|exists:unit_models,unit_model_id',
 		]);
 		
@@ -82,10 +81,18 @@ class TrainingRequestController extends Controller
 			DB::beginTransaction();
 
 			$input = $request->all();
-
+			
 			$input['training_date'] = Carbon::parse($input['training_date'])->toDateTimeString();
 			$query = TrainingRequest::create($input);
 			$training_request_id = $query->training_request_id;
+
+			// Training programs
+			foreach ($input['training_program_ids'] as $program_id) {
+				DB::table('training_request_programs')->insert([
+					'training_request_id' => $training_request_id,
+					'training_program_id' => $program_id
+				]);
+			}
 
 			// Save Dealers
 			foreach ($input['selling_dealer'] as $dealer_id) {
@@ -128,7 +135,7 @@ class TrainingRequestController extends Controller
 
 			DB::commit();
 
-			$training_program = TrainingProgram::findOrFail($query->training_program_id);
+		//	$training_program = TrainingProgram::findOrFail($query->training_program_id);
 			if ($query) {
 				$user_access = UserAccess::select('et.email')
 					->leftJoin('email_tab as et', 'et.employee_id', '=', 'user_access_tab.employee_id')
@@ -147,7 +154,7 @@ class TrainingRequestController extends Controller
 						'recipient'         => $value['email'],
 						'title'             => 'Training Request',
 						'message'           => 'Greetings! '. $query->contact_person .' of <strong>'. $query->company_name .'</strong> is requesting for a <br/>
-							training program: '. $training_program->program_title .' <br/>
+							training program'.'<br/>
 							on '. Carbon::parse($query->training_date)->format('M d, Y D - h:i A') .'
 							Please click the button to navigate directly to our system.',
 						'redirect_url' => 'http://localhost/fleet_training_request/admin/training_requests',
@@ -163,11 +170,10 @@ class TrainingRequestController extends Controller
 					'sender'            => config('mail.from.address'),
 					'recipient'         => $query->email,
 					'title'             => 'Request Submitted!',
-					'message'           => 'Greetings! Your <strong>request for training has been submitted.</strong> Please wait for IPC Administrator to response.<br>
-						Thank you.',
-					'redirect_url' => null,
-					'cc'           => null,
-					'attachment'   => null
+					'message'           => 'Greetings! Your <strong>request for training has been submitted.</strong> Please wait for IPC Administrator to response.<br> Thank you.',
+					'redirect_url'      => null,
+					'cc'                => null,
+					'attachment'        => null
 				]);
 				return $query;
 			}

@@ -97,23 +97,20 @@
 					<thead>
 						<tr>
 							<th class="text-nowrap text-center text-uppercase">&nbsp;</th>
+							<th class="text-nowrap text-center text-uppercase">Ref No.</th>
 							<th class="text-nowrap text-center text-uppercase">Company Name</th>
-							<th class="text-nowrap text-center text-uppercase">Contact Person</th>
-							<th class="text-nowrap text-center text-uppercase">Email</th>
-							<th class="text-nowrap text-center text-uppercase">Contact Number</th>
-							<th class="text-nowrap text-center text-uppercase">Requesting For</th>
 							<th class="text-nowrap text-center text-uppercase">Training Date</th>
-							<th class="text-nowrap text-center text-uppercase">Admin</th>
-							<th class="text-nowrap text-center text-uppercase">Requestor</th>
+							<th class="text-nowrap text-center text-uppercase">Shift</th>
+							<th class="text-nowrap text-center text-uppercase">Status</th>
 						</tr>
 					</thead>
 					<tbody>
 						<tr v-for="(item, index) in requests" v-bind:key="item.training_request_id">
-							<td class="text-nowrap">
-								<!-- Split button -->
+							 <td class="text-nowrap">
+	
 								<div class="btn-group">
-									<button type="button" class="btn btn-sm btn-primary dropdown-toggle py-0" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-										<i class="fa fa-ellipsis-h"></i>
+									<button type="button" class="btn btn-xs btn-primary dropdown-toggle py-0" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+										<i class="fa fa-gear"></i>
 									</button>
 									<ul class="dropdown-menu shadow-lg">
 										<li class="text-left">
@@ -134,67 +131,47 @@
 												Edit Schedule
 											</a>
 										</li>
-										<li class="text-left">
+										<!-- <li class="text-left">
 											<a v-on:click="showDesignatedTrainors(item.training_request_id)">
 												<i class="fa fa-users text-default"></i>
 												Trainors
 											</a>
-										</li>
+										</li> -->
 
-										<li v-if="item.request_status != 'denied'" role="separator" class="divider"></li>
+								<!-- 		<li v-if="item.request_status != 'denied'" role="separator" class="divider"></li>
 										<li v-if="item.request_status != 'denied' && item.request_status != 'approved'" class="dropdown-header">Your actions</li>
-
-										<li 
+ -->
+									<!-- 	<li 
 										v-if="item.request_status == 'approved'" 
 										class="text-center">
 											<div :class="`label label-${item.color_stats} py-2 px-2`" style="pading: 8px;">
 												<i v-if="item.stats == 'approved'" class="fa fa-check-circle mr-3"></i>
 												@{{ item.stats.toUpperCase() }}
 											</div>
-										</li>
+										</li> -->
 
-										<li v-if="item.request_status != 'denied' && item.request_status != 'approved'" class="text-left"><a href="#" v-on:click="showDesignatedTrainors(item.training_request_id)">
+										<!-- <li v-if="item.request_status != 'denied' && item.request_status != 'approved'" class="text-left"><a href="#" v-on:click="showDesignatedTrainors(item.training_request_id)">
 											<i class="fa fa-check text-success"></i>&nbsp;
 											Approve
 										</a></li>
 										<li v-if="item.request_status != 'denied' && item.request_status != 'approved'" class="text-left"><a href="#" v-on:click="willDeny(item.training_request_id)">
 											<i class="fa fa-times text-danger"></i>
 											Disapprove</a>
-										</li>
+										</li> -->
 									</ul>
 								</div>
-							</td>
+							</td> 
+						
+							<td class="text-nowrap">@{{ item.training_request_id }}</td>
 							<td class="text-nowrap">@{{ item.company_name }}</td>
-							<td class="text-nowrap">@{{ item.contact_person }}</td>
-							<td class="text-nowrap">@{{ item.email }}</td>
-							<td class="text-nowrap">@{{ item.contact_number }}</td>
-							<td class="text-nowrap">@{{ item.training_program.program_title }}</td>
-							<td class="text-nowrap">@{{ item.training_date | dateTimeFormat }}</td>
+							<td class="text-nowrap">@{{ item.training_date | dateFormat }}</td>
+							<td class="text-nowrap">@{{ item.training_time }}</td>
 							<td class="text-nowrap">
-								<div v-if="item.request_status == 'approved'" class="label label-success">
-									APPROVED
-								</div>
-								<div v-else-if="item.request_status == 'pending'" class="label label-warning">
-									PENDING
-								</div>
-								<div v-else class="label label-danger">
-									DENIED
+								<div  :class="status_colors[item.status]">
+									@{{ item.status }}
 								</div>
 							</td>
-							<td class="text-nowrap">
-								<div v-if="item.requestor_confirmation == 'confirmed'" class="label label-success">
-									CONFIRMED
-								</div>
-								<div v-else-if="item.requestor_confirmation == 'pending'" class="label label-warning">
-									WAITING
-								</div>
-								<div v-else-if="item.requestor_confirmation == 'reschedule'" class="label label-info">
-									RESCHEDULED
-								</div>
-								<div v-else class="label label-danger">
-									CANCELLED
-								</div>
-							</td>
+							
 						</tr>
 					</tbody>
 				</table>
@@ -214,6 +191,9 @@
 	{{-- <script src="{{ url('public/libraries/adminlte/jquery.datetimepicker.full.min.js') }}"></script> --}}
 	<script src="{{ url('public/libraries/adminlte/bootstrap-datetimepicker.min.js') }}"></script>
 	<script>
+
+		var table;
+
 		$(function() {
 			// $.datetimepicker.setLocale('en');
 			// $('#datetimepicker').datetimepicker();
@@ -239,7 +219,13 @@
 					approval_statuses: [],
 					training_request_id: 0,
 					designated_trainors: [],
-					toggledButton: false
+					toggledButton: false,
+					status_colors : {
+						'pending' : 'label label-warning',
+						'approved': 'label label-success',
+						'denied'  : 'label label-danger',
+						'new'     : 'label label-info',
+					}
 				}
 			},
 			computed: {
@@ -314,7 +300,7 @@
 					axios.get(`${this.base_url}/admin/approver_statuses/${training_request_id}`)
 					.then(({data}) => {
 						this.approval_statuses = data;
-						$('#approver_statuses').modal('show');
+						//$('#approver_statuses').modal('show');
 					})
 					.catch((error) => {
 						console.log(error.response);
@@ -325,9 +311,13 @@
 						.then(({data}) => {
 							this.items = data;
 
+							if($.fn.dataTable.isDataTable('#training_requests')){
+								table.destroy();
+							}
+                 
 							this.$nextTick(() => {
-								$('#training_requests').DataTable({
-									scrollX: true
+								table = $('#training_requests').DataTable({
+									ordering: false
 								});
 							});
 						})
@@ -336,18 +326,27 @@
 						});
 				},
 				openRequest(training_request_id) {
+					var self = this;
+					self.training_request_id = training_request_id;
 					axios.get(`${this.base_url}/admin/training_requests/get/${training_request_id}`)
 					.then(({data}) => {
-						this.training_request = data;
-						this.data_loaded = 1;
+						self.training_request = data;
+						self.data_loaded = 1;
 						$('#request_details_modal').modal('show');
+					})
+					.then( () => {
+						self.getDesignatedTrainors(self.training_request_id);
+					})
+					.then( () => {
+						self.getApproverStatuses(self.training_request_id);
 					})
 					.catch((error) => {
 						console.log(error.response);
 					});
 				},
 				willApprove() {
-					axios.get(`${this.base_url}/admin/designated_trainors/assigned_trainors/${this.training_request_id}`)
+					var self = this;
+					axios.get(`${self.base_url}/admin/designated_trainors/assigned_trainors/${self.training_request_id}`)
 					.then(({data}) => {
 						var canProceed = false;
 						data.forEach(element => {
@@ -372,12 +371,13 @@
 							})
 							.then((res) => {
 								if (res) {
-									axios.put(`${this.base_url}/admin/update_request/${this.training_request_id}`, {request_status: 'approved'})
+									axios.put(`${self.base_url}/admin/update_request/${self.training_request_id}`, {request_status: 'pending'})
 									.then(({data}) => {
 										if (data) {
-											this.getItems();
-											this.getDashboard();
-											$('#designated_trainor_modal').modal('hide');
+									
+											self.getItems();
+											self.getDashboard();
+											
 											swal({
 												title: "Alright!",
 												text: "Request has been approved",
@@ -386,6 +386,9 @@
 												timer: 4000,
 											})
 										}
+									})
+									.then( () => {
+										$('#request_details_modal').modal('hide');
 									})
 									.catch((error) => {
 										console.log(error.response);
@@ -421,6 +424,9 @@
 									swal('Success!', 'Request has been denied', 'success', {timer:4000,button:false});
 								}
 							})
+							.then( () => {
+								$('#request_details_modal').modal('hide');
+							})
 							.catch((error) => {
 								console.log(error.response);
 								swal('Ooops!', 'Something went wrong.', 'error', {timer:4000,button:false});
@@ -429,6 +435,7 @@
 					});
 				},
 				getRequest: function(training_request_id) {
+				
 					axios.get(`${this.base_url}/admin/training_requests/get/${training_request_id}`)
 					.then(({data}) => {
 						this.training_request = data;
@@ -437,33 +444,32 @@
 						console.log(error.response);
 					});
 				},
-				showDesignatedTrainors: function(training_request_id) {
+				getDesignatedTrainors: function(training_request_id) {
+					var self = this;
 					axios.get(`${this.base_url}/admin/designated_trainors/assigned_trainors/${training_request_id}`)
 					.then(({data}) => {
-						this.training_request_id = training_request_id;
-						this.getRequest(training_request_id);
-						this.designated_trainors = data;
-						$('#request_details_modal').modal('hide');
-						$('#designated_trainor_modal').modal('show');
+						self.training_request_id = training_request_id;
+						self.designated_trainors = data;
 					})
 					.catch((error) => {
 						console.log(error.response);
 						swal('Ooops!', 'Something went wrong.', 'error', {timer:4000,button:false});
 					});
 				},
-				includeTrainor: function(trainor_id) {
+				includeTrainor: function(person_id) {
+					var self = this;
 					axios.post(
 						`${this.base_url}/admin/designated_trainors/assign_trainor`, 
 						{
-							training_request_id: this.training_request_id,
-							trainor_id: trainor_id
+							training_request_id: self.training_request_id,
+							person_id: person_id
 						}
 					)
 					.then(({data}) => {
 						if (data) {
-							axios.get(`${this.base_url}/admin/designated_trainors/assigned_trainors/${this.training_request_id}`)
+							axios.get(`${this.base_url}/admin/designated_trainors/assigned_trainors/${self.training_request_id}`)
 							.then(({data}) => {
-								this.designated_trainors = data;
+								self.designated_trainors = data;
 							})
 							.catch((error) => {
 								console.log(error.response);
@@ -475,7 +481,8 @@
 						console.log(error.response);
 					});
 				},
-				excludeTrainor: function(trainor_id) {
+				excludeTrainor: function(person_id) {
+					var self = this;
 					swal({
 						title: "Remove Trainor?",
 						text: "",
@@ -488,16 +495,16 @@
 					})
 					.then((res) => {
 						if (res) {
-							axios.post(`${this.base_url}/admin/designated_trainors/remove_trainor`,
+							axios.post(`${self.base_url}/admin/designated_trainors/remove_trainor`,
 							{
-								training_request_id: this.training_request_id,
-								trainor_id: trainor_id
+								training_request_id: self.training_request_id,
+								person_id: person_id
 							})
 							.then(({data}) => {
 								if (data) {
-									axios.get(`${this.base_url}/admin/designated_trainors/assigned_trainors/${this.training_request_id}`)
+									axios.get(`${self.base_url}/admin/designated_trainors/assigned_trainors/${self.training_request_id}`)
 									.then(({data}) => {
-										this.designated_trainors = data;
+										self.designated_trainors = data;
 									})
 									.catch((error) => {
 										console.log(error.response);

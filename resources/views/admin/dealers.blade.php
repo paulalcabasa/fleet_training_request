@@ -30,6 +30,7 @@
 						<th class="text-center text-uppercase">#</th>
 						<th class="text-center text-uppercase">Dealer</th>
 						<th class="text-center text-uppercase">Branch</th>
+						<th class="text-center text-uppercase">Email</th>
 						<th class="text-center text-uppercase">Actions</th>
 					</tr>
 					</thead>
@@ -38,6 +39,7 @@
 							<td class="text-center" width="10">@{{ index+1 }}</td>
 							<td class="text-center">@{{ item.dealer }}</td>
 							<td class="text-center">@{{ item.branch }}</td>
+							<td class="text-center">@{{ item.email }}</td>
 							<td class="text-center" width="100">
 								<button v-on:click="editDealer(item.dealer_id, index)" class="btn btn-sm btn-primary">
 									<i class="fa fa-pencil"></i>

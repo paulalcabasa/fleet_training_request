@@ -159,6 +159,10 @@ export default {
   },
   mounted () {
     this.getDealers()
+  /*    this.$store.commit('request/NEXT_PAGE');
+     this.$store.commit('request/NEXT_PAGE');
+     this.$store.commit('request/NEXT_PAGE');
+     this.$store.commit('request/NEXT_PAGE'); */
   },
   methods: {
     updateForm (field, value) {
@@ -168,7 +172,7 @@ export default {
       this.$store.commit('request/NEXT_PAGE')
     },
     getDealers () {
-      axios.get(`${this.api_url}/guest/dealers/get`)
+      axios.get(`${this.api_url}guest/dealers/get`)
       .then(({data}) => {
         data.forEach(element => {
           element.dealer = element.dealer + ' | ' + element.branch
