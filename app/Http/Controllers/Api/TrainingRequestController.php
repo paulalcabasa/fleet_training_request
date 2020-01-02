@@ -153,13 +153,15 @@ class TrainingRequestController extends Controller
 						'sender'            => config('mail.from.address'),
 						'recipient'         => $value['email'],
 						'title'             => 'Training Request',
-						'message'           => 'Greetings! '. $query->contact_person .' of <strong>'. $query->company_name .'</strong> is requesting for a <br/>
+						'mail_template'		=> 'admin.new_request',
+				/* 		'message'           => 'Greetings! '. $query->contact_person .' of <strong>'. $query->company_name .'</strong> is requesting for a <br/>
 							training program'.'<br/>
 							on '. Carbon::parse($query->training_date)->format('M d, Y D - h:i A') .'
-							Please click the button to navigate directly to our system.',
-						'redirect_url' => 'http://localhost/fleet_training_request/admin/training_requests',
+							Please click the button to navigate directly to our system.', */
+						'redirect_url' => 'http://ecommerce5/fleet_training_request/admin/training_requests',
 						'cc'           => null,
-						'attachment'   => null
+						'attachment'   => null,
+						'training_request_id' => $training_request_id
 					]);
 				}
 
@@ -170,10 +172,12 @@ class TrainingRequestController extends Controller
 					'sender'            => config('mail.from.address'),
 					'recipient'         => $query->email,
 					'title'             => 'Request Submitted!',
-					'message'           => 'Greetings! Your <strong>request for training has been submitted.</strong> Please wait for IPC Administrator to response.<br> Thank you.',
+					'mail_template'		=> 'customer.new_request',
+				//	'message'           => 'Greetings! Your <strong>request for training has been submitted.</strong> Please wait for IPC Administrator to response.<br> Thank you.',
 					'redirect_url'      => null,
 					'cc'                => null,
-					'attachment'        => null
+					'attachment'        => null,
+					'training_request_id' => $training_request_id
 				]);
 				return $query;
 			}

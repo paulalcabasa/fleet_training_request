@@ -25,7 +25,7 @@
                       <v-divider class="mx-2" inset vertical></v-divider>
                       <v-flex xs12 md4>
                         <v-text-field
-                        label="Dealer Participants"
+                        label="Target headcount"
                         v-model.number="participant.quantity"
                         required
                         style="padding-top:1.5em"

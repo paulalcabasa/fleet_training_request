@@ -52,20 +52,21 @@ class ApproveRequestController extends Controller
 
                         $approver_id = $approval_status->approver_id;
                         $approver = Approver::findOrFail($approver_id);
-                      
-                        $batch_mails->save_to_batch([
-                            'email_category_id' => config('constants.superior_approval'),
-                            'subject'           => 'Training Request Approval',
-                            'sender'            => config('mail.from.address'),
-                            'recipient'         => $approver->email,
-                            'title'             => 'Training Request Approval',
-                            'message'           => 'Greetings! '. $training_request->contact_person .' of <strong>'. $training_request->company_name .'</strong> is requesting for a <br/>
-                            training program on '. Carbon::parse($training_request->training_date)->format('M d, Y'),
-                            'cc'         => null,
-                            'attachment' => null,
-                            'accept_url' => route('superior_approval', ['approval_status_id' => $approval_status->approval_status_id]),
-                            'deny_url'   => route('superior_disapproval', ['approval_status_id' => $approval_status->approval_status_id])
-                        ]);
+                        
+                        $params = [
+                            'email_category_id'   => config('constants.superior_approval'),
+                            'training_request_id' => $training_request->training_request_id,
+                            'mail_template'       => 'approver.validate',
+                            'subject'             => 'NOTICE OF TRAINING REQUEST',
+                            'sender'              => config('mail.from.address'),
+                            'recipient'           => $approver->email,
+                            'title'               => 'NOTICE OF TRAINING REQUEST',
+                            'cc'                  => null,
+                            'attachment'          => null,
+                            'accept_url'          => route('superior_approval', ['approval_status_id' => $approval_status->approval_status_id]),
+                            'deny_url'            => route('superior_disapproval', ['approval_status_id' => $approval_status->approval_status_id])
+                        ];
+                        $batch_mails->save_to_batch($params);
                     }  
                     return response()->json($query);
                 }

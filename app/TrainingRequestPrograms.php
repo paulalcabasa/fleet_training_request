@@ -17,5 +17,10 @@ class TrainingRequestPrograms extends Model
     {
         return $this->belongsTo('App\TrainingProgram', 'training_program_id', 'training_program_id');
     }
+
+    public function program_features()
+    {
+        return $this->belongsTo('App\ProgramFeature', 'training_program_id', 'training_program_id');
+    }
     
 }
