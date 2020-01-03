@@ -218,6 +218,28 @@
 						<td height="25" style="font-size: 25px; line-height: 25px;">&nbsp;</td>
 					</tr>
 
+					<tr>
+						<td align="center">
+							<hr/>
+							<table border="0" width="500" align="center" cellpadding="0" cellspacing="0" class="container590">
+								<tr>
+									<td align="center" style="color: #888888; font-size: 20px;font-weight:bold; font-family: 'Work Sans', Calibri, sans-serif; line-height: 24px;">
+										<h4>Important Reminder:</h4>
+									</td>
+								</tr>
+								<tr>
+									<td align="center" style="color: #888888; font-size: 16px; font-family: 'Work Sans', Calibri, sans-serif; line-height: 24px;">
+										<div style="line-height: 24px">
+											All transaction is system generated. Regularly check your registered email address for updates on your request.
+										</div>
+									</td>
+								</tr>
+							</table>
+							
+						</td>
+					</tr>
+
+
 				</table>
 			</td>
 		</tr>

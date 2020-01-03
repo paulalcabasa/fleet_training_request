@@ -223,6 +223,7 @@
 					status_colors : {
 						'pending' : 'label label-warning',
 						'approved': 'label label-success',
+						'confirmed': 'label label-success',
 						'denied'  : 'label label-danger',
 						'new'     : 'label label-info',
 					}

@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 use Carbon\Carbon;
-use App\Trainor;
+use App\Person;
 use App\UserAccess;
 use App\TrainingRequest;
 use App\Services\BatchMails;
@@ -17,37 +17,35 @@ class RequestorController extends Controller
 	public function confirm($training_request_id, BatchMails $batch_mails)
 	{
 		$check = TrainingRequest::findOrFail($training_request_id);
-
-		if ($check->requestor_confirmation == 'pending') {
+	
+		if ($check->status == 'approved') {
+	
 			$query = DB::table('training_requests')
 				->where('training_request_id', $training_request_id)
 				->update([
-					'requestor_confirmation' => 'confirmed'
+					'status' => 'confirmed'
 				]);
 	
 			if ($query) {
-				$trainors = Trainor::with(['designated_trainors' => function($query) use($training_request_id) {
-						$query->where('training_request_id', $training_request_id);
-					}])
-					->leftJoin('designated_trainors as dt', 'dt.trainor_id', '=', 'trainors.trainor_id')
-					->where([
-						['deleted_at', '=', NULL],
-						['dt.designated_trainor_id', '!=', NULL]
-					])
-					->get();
-					
+				 $trainors = DB::table('designated_trainors as dt')
+					 ->leftJoin('persons as p', 'dt.person_id','=','p.person_id')
+					 ->where([
+						 ['dt.training_request_id', '=', $training_request_id]
+					 ])->get();
+				
 				foreach ($trainors as $value) {
+					
 					$batch_mails->save_to_batch([
-						'email_category_id' => config('constants.trainor_notification'),
-						'subject'           => 'Training Program',
-						'sender'            => config('mail.from.address'),
-						'recipient'         => $value->email,
-						'title'             => 'Training Program',
-						'message'           => 'There will be a Training Program: <strong>'. $check->training_program->program_title .'</strong>.<br/>
-							that will be held on: '. Carbon::parse($check->training_date)->format('M d, Y D - h:i A').'<br/>
-							at: '. $check->training_address,
-						'cc'         => null,
-						'attachment' => null
+						'email_category_id'   => null,
+						'subject'             => 'NOTICE OF CONFIRMED TRAINING REQUEST',
+						'sender'              => config('mail.from.address'),
+						'recipient'           => $value->email,
+						'training_request_id' => $training_request_id,
+						'mail_template'       => 'ipc.training_alert',
+						'title'               => 'NOTICE OF CONFIRMED TRAINING REQUEST',
+						'message'             => '',
+						'cc'                  => null,
+						'attachment'          => null
 					]);
 				}
 
@@ -58,19 +56,21 @@ class RequestorController extends Controller
                         'user_type_id' => 2
                     ])
                     ->get();
-    
+		
                 foreach ($user_access as $value) {
+					
                     $query = $batch_mails->save_to_batch([
-                        'email_category_id' => null,
-                        'subject'           => 'Training Program',
-                        'sender'            => config('mail.from.address'),
-                        'recipient'         => $value->email,
-                        'title'             => 'Training Program',
-                        'message'           => $check->contact_person . ' of <strong>'. $check->company_name .'</strong><br/>
-                            has been confirmed the training program.',
-                        'cc'           => null,
-                        'attachment'   => null,
-                        'redirect_url' => 'http://localhost/fleet_training_request/admin/training_requests'
+                        'email_category_id'   => null,
+                        'subject'             => 'NOTICE OF CONFIRMED TRAINING REQUEST',
+                        'sender'              => config('mail.from.address'),
+                        'recipient'           => $value->email,
+                        'training_request_id' => $training_request_id,
+                        'mail_template'       => 'ipc.training_alert',
+                        'title'               => 'NOTICE OF CONFIRMED TRAINING REQUEST',
+                        'message'             => '',
+                        'cc'                  => null,
+                        'attachment'          => null,
+                        'redirect_url'        => 'http://localhost/fleet_training_request/admin/training_requests'
                     ]);
                 }
 

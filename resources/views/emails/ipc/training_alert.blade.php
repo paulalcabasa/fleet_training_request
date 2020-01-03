@@ -47,32 +47,6 @@
 			font-size: 14px;
 			border: 0;
 		}
-
-		.approve-btn {
-		
-			background-color:#4caf50 !important;
-			border-color:#4caf50 !important;
-			color: #fff; 
-			text-decoration: none;
-		}
-
-		.approve-td {
-			color: #00A65A; 
-			font-size: 14px; 
-			font-family: 'Work Sans', Calibri, sans-serif; 
-			line-height: 26px;
-		}
-
-		.approve-td div {
-			line-height: 26px;
-		}
-		.deny-btn {
-			padding:1em 2em 1em 2em;
-			background-color:#DD4B39 !important;
-			border-color:#DD4B39 !important;
-			color: #fff;
-			text-decoration: none;
-		}
 		/* ----------- responsivity ----------- */
 
 		@media only screen and (max-width: 640px) {
@@ -203,7 +177,7 @@
 					<tr>
 						<td align="center" style="color: #343434; font-size: 24px; font-family: Quicksand, Calibri, sans-serif; font-weight:700;letter-spacing: 3px; line-height: 35px;"
 							class="main-header">
-                            <div style="line-height: 35px">NOTICE OF TRAINING REQUEST</div>
+                            <div style="line-height: 35px">NOTICE OF CONFIRMED TRAINING REQUEST</div>
 						</td>
 					</tr>
 
@@ -221,13 +195,23 @@
 						</td>
 					</tr>
 
+                    <tr>
+						<td height="20" style="font-size: 20px; line-height: 20px;">&nbsp;</td>
+					</tr>
+                    
+                    <tr>
+                        <td style="color: #343434; font-size: 16px; font-family: 'Work Sans', Calibri, sans-serif; line-height: 24px;">
+                            This message is sent to inform you that one of your fleet account is requesting for a training.
+                        </td>
+                    </tr>
+
 					<tr>
 						<td height="20" style="font-size: 20px; line-height: 20px;">&nbsp;</td>
 					</tr>
                     
                     <tr>
                         <td style="color: #343434; font-size: 16px; font-family: 'Work Sans', Calibri, sans-serif; line-height: 24px;">
-                            IPC Fleet Training Section received a training request with the following details:
+                            <strong><i><u><?php echo $content['training_request']['contact_person']; ?></u></i></strong> of <strong><i><u><?php echo $content['training_request']['company_name'];?></u></i></strong> has confirmed the training.
                         </td>
                     </tr>
 
@@ -237,25 +221,7 @@
 
 					<tr style="color: #343434; font-size: 16px; font-family: 'Work Sans', Calibri, sans-serif; ">
                         <td style="width:100%;">	 
-							<table style="width:100%;color:#343434;">
-								<tr>
-                                    <td width="200" style="font-weight:bold;">Company Name:</td>
-                                    <td><?php echo $content['training_request']['company_name'];?></td>
-								</tr>
-								<tr>
-                                    <td width="200" style="font-weight:bold;">Requestors Name:</td>
-                                    <td><?php echo $content['training_request']['contact_person'];?></td>
-								</tr>
-								<tr>
-                                    <td  width="190" style="font-weight:bold;">Date :</td>
-                                    <td><?php echo $content['training_request']['date']; ?></td>
-                                </tr>
-                                
-                                <tr>
-                                    <td  width="190" style="font-weight:bold;">Time :</td>
-                                    <td><?php echo $content['training_request']['time']; ?></td>
-								</tr>
-								
+                            <table style="width:100%;color:#343434;">
                                 <tr>
                                     <td valign="top" width="190" style="font-weight:bold;">Training Program :</td>
                                     <td valign="top">
@@ -279,28 +245,23 @@
                                         </ol>
                                     </td>
                                 </tr>
+
                                 <tr>
-                                    <td width="200" style="font-weight:bold;">Training Venue :</td>
+                                    <td  width="190" style="font-weight:bold;">Date :</td>
+                                    <td><?php echo $content['training_request']['date']; ?></td>
+                                </tr>
+
+                                   
+                                <tr>
+                                    <td  width="190" style="font-weight:bold;">Time :</td>
+                                    <td><?php echo $content['training_request']['time']; ?></td>
+                                </tr>
+
+                                <tr>
+                                    <td width="200" style="font-weight:bold;">Venue :</td>
                                     <td><?php echo $content['training_request']['venue'];?></td>
                                 </tr>
-								
-                                <tr>
-                                    <td valign="top" width="190" style="font-weight:bold;">Participants :</td>
-                                    <td valign="top">
-                                        <ol style="list-style:none;padding:0;margin:0;">
-											<?php foreach($content['training_request']['participants'] as $row){ ?>
-												<li><?php echo $row['participant'] . " - " . $row['quantity']; ?></li>
-											<?php } ?>
-                                        </ol>
-                                    </td>
-                                </tr>
-                               <tr>
-                                    <td  width="190" style="font-weight:bold;">Isuzu Model :</td>
-                                    <td><?php echo $content['training_request']['unit_model']; ?></td>
-                                </tr>
-                             
 
-                                
                                 <tr>
                                     <td valign="top" width="190" style="font-weight:bold;">Assigned Trainer :</td>
                                     <td valign="top">
@@ -311,6 +272,22 @@
 										</ul>
 									</td>
                                 </tr>
+
+                                <tr>
+                                    <td valign="top" width="190" style="font-weight:bold;">Participants :</td>
+                                    <td valign="top">
+                                        <ol style="list-style:none;padding:0;margin:0;">
+											<?php foreach($content['training_request']['participants'] as $row){ ?>
+												<li><?php echo $row['participant'] . " - " . $row['quantity']; ?></li>
+											<?php } ?>
+                                        </ol>
+                                    </td>
+                                </tr>
+                               	<tr>
+                                    <td  width="190" style="font-weight:bold;">Isuzu Model :</td>
+                                    <td><?php echo $content['training_request']['unit_model']; ?></td>
+                                </tr>
+
                             </table>	
 						</td>
 					</tr>
@@ -318,60 +295,27 @@
 					<tr>
 						<td height="25" style="font-size: 25px; line-height: 25px;">&nbsp;</td>
 					</tr>
-				
-					<tr>
-						<td align="center">
-							<table border="0" cellpadding="10" width="150" cellspacing="0">
+                    
+                    <tr>
+                        <td style="color: #343434; font-size: 16px; font-family: 'Work Sans', Calibri, sans-serif; line-height: 24px;">
+                            For details and updates please call or text IPC Fleet Training Section thru contact details below and look for Ms. Clarissa Manimtim.
+                        </td>
+                    </tr>
 
-								<tr>
-									<td height="10" colspan="2" style="font-size: 10px; line-height: 10px;">&nbsp;</td>
-								</tr>
-
-								<tr>
-									<td align="center">
-										<table border="0" width="150" cellpadding="0" cellspacing="0" bgcolor="00A65A" style="float: left">
-											<tr>
-												<td height="10" style="font-size: 10px; line-height: 10px;">&nbsp;</td>
-											</tr>
-											<tr>
-												<td align="center" style="color: #00A65A; font-size: 14px; font-family: 'Work Sans', Calibri, sans-serif; line-height: 26px;">
-													<div style="line-height: 26px;">
-														<a href="<?php echo $content['accept_url']; ?>" style="color: #ffffff; text-decoration: none;">Approve</a>
-													</div>
-												</td>
-											</tr>
-											<tr>
-												<td height="10" style="font-size: 10px; line-height: 10px;">&nbsp;</td>
-											</tr>
-										</table>
-							
-									</td>
-									<td  align="center" >
-										<table border="0" width="150" cellpadding="0" cellspacing="0" bgcolor="DD4B39" style="float: right">
-											<tr>
-												<td height="10" style="font-size: 10px; line-height: 10px;">&nbsp;</td>
-											</tr>
-											<tr>
-												<td align="center" style="color: #00A65A; font-size: 14px; font-family: 'Work Sans', Calibri, sans-serif; line-height: 26px;">
-													<div style="line-height: 26px;">
-														<a href="<?php echo $content['deny_url']; ?>" style="color: #ffffff; text-decoration: none;">Disapprove</a>
-													</div>
-												</td>
-											</tr>
-											<tr>
-												<td height="10" style="font-size: 10px; line-height: 10px;">&nbsp;</td>
-											</tr>
-										</table>
-									</td>
-								</tr>
-
-							</table>
-
-						</td>
+                    <tr>
+						<td height="25" style="font-size: 25px; line-height: 25px;">&nbsp;</td>
 					</tr>
 
-				
-
+                    <tr>
+                        <td style="color: #343434; font-size: 16px; font-family: 'Work Sans', Calibri, sans-serif; line-height: 24px;">
+                            Landline: 		(049) 541-02-24 local 346
+                        </td>
+                    </tr>
+                     <tr>
+                        <td style="color: #343434; font-size: 16px; font-family: 'Work Sans', Calibri, sans-serif; line-height: 24px;">
+                            Cellphone:	(+63) 918-324-1234 or (+63) 927-380-3862
+                        </td>
+                    </tr>
 
 				</table>
 			</td>

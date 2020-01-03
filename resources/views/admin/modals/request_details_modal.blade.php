@@ -12,7 +12,7 @@
 					<ul class="nav nav-tabs">
 						<li class="active"><a href="#tab_1" data-toggle="tab" aria-expanded="true">Customer</a></li>
 						<li class=""><a href="#tab_2" data-toggle="tab" aria-expanded="false">Training</a></li>
-						<li><a href="#tab_3" data-toggle="tab">Dealership</a></li>
+						<li v-if="training_request.dealer_details"><a href="#tab_3" data-toggle="tab">Dealership</a></li>
 						<li><a href="#tab_4" data-toggle="tab">Program</a></li>
 						<li><a href="#tab_5" data-toggle="tab">Trainor</a></li>
 						<li><a href="#tab_6" data-toggle="tab">Approval</a></li>
@@ -92,7 +92,7 @@
 							</div>
 						</div>
 						<!-- /.tab-pane -->
-						<div class="tab-pane" id="tab_3">
+						<div class="tab-pane" id="tab_3" v-if="training_request.dealer_details">
 						 	<div class="row" v-if="data_loaded">
 								<div class="form-group col-md-6">
 									<label>Dealership Name</label>

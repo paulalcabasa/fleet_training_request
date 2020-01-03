@@ -44,16 +44,22 @@ class SuperiorController extends Controller
 
                 if ($check == 0 && $check_denied == 0) {
                     // Fetch training_request
-                    $training_request = TrainingRequest::with('training_program')->findOrFail($query->training_request_id);
+                    $training_request = TrainingRequest::findOrFail($query->training_request_id);
+
+                    $update_status = DB::table('training_requests')
+                        ->where('training_request_id', $training_request_id)
+                        ->update(['status' => 'approved']);
 
                     // To Requestor
                     $batch_mails->save_to_batch([
-                        'email_category_id' => config('constants.requestor_notification'),
-                        'subject'           => 'Training Program',
-                        'sender'            => config('mail.from.address'),
-                        'recipient'         => $training_request->email,
-                        'title'             => 'Training Program',
-                        'message'           => 'Greetings! IPC Administrator has been approved your <strong>training request</strong>.<br/>
+                        'email_category_id'   => config('constants.requestor_notification'),
+                        'subject'             => 'Training Program',
+                        'sender'              => config('mail.from.address'),
+                        'recipient'           => $training_request->email,
+                        'training_request_id' => $query->training_request_id,
+                        'mail_template'       => 'customer.confirm',
+                        'title'               => 'Training Program',
+                        'message'             => 'Greetings! IPC Administrator has been approved your <strong>training request</strong>.<br/>
                             Training program will be held on: '. $training_request->training_address .' <br/>
                             at       '. Carbon::parse($training_request->training_date)->format('M d, Y D - h: i A'),
                         'cc'           => null,
