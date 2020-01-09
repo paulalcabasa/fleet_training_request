@@ -191,7 +191,7 @@
 								<tbody>
 									<tr v-for="(item, index) in approval_statuses" v-bind:key="item.approval_status_id">
 										<td class="text-center">@{{ index+1 }}</td>
-										<td class="text-center">@{{ item.approver.approver_name }}</td>
+										<td class="text-center">@{{ item.approver.first_name  }} @{{ item.approver.last_name  }}</td>
 										<td class="text-center">@{{ item.approver.email }}</td>
 										<td class="text-center">
 											<i v-if="item.status == 'pending'" class="fa fa-clock-o text-yellow" style="font-size: 16px;"></i>

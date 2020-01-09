@@ -104,7 +104,9 @@ class TrainingRequestController extends Controller
 	}
 
 	public function index()
-	{
+	{	
+
+	
 		return response()->json(
 			TrainingRequest::with([
 				'training_request_programs.training_program',

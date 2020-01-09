@@ -37,7 +37,7 @@ const request = {
         requestor_name: '',
         position: '',
         email: '',
-        contact: ''
+        contact: '',
       }
     },
     training_programs: [],
@@ -114,7 +114,7 @@ const request = {
           requestor_name: '',
           position: '',
           email: '',
-          contact: ''
+          contact: '',
         }
       }
     },

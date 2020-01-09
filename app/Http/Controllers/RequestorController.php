@@ -17,16 +17,18 @@ class RequestorController extends Controller
 	public function confirm($training_request_id, BatchMails $batch_mails)
 	{
 		$check = TrainingRequest::findOrFail($training_request_id);
-	
+		
+		
 		if ($check->status == 'approved') {
-	
 			$query = DB::table('training_requests')
 				->where('training_request_id', $training_request_id)
 				->update([
 					'status' => 'confirmed'
 				]);
-	
+		
 			if ($query) {
+
+				// send to designated trainor
 				 $trainors = DB::table('designated_trainors as dt')
 					 ->leftJoin('persons as p', 'dt.person_id','=','p.person_id')
 					 ->where([
@@ -41,7 +43,7 @@ class RequestorController extends Controller
 						'sender'              => config('mail.from.address'),
 						'recipient'           => $value->email,
 						'training_request_id' => $training_request_id,
-						'mail_template'       => 'ipc.training_alert',
+						'mail_template'       => 'trainor.training_alert',
 						'title'               => 'NOTICE OF CONFIRMED TRAINING REQUEST',
 						'message'             => '',
 						'cc'                  => null,
@@ -49,6 +51,7 @@ class RequestorController extends Controller
 					]);
 				}
 
+				// send to admins
 				$user_access = UserAccess::select('et.email')
                     ->leftJoin('email_tab as et', 'et.employee_id', '=', 'user_access_tab.employee_id')
                     ->where([
@@ -65,14 +68,85 @@ class RequestorController extends Controller
                         'sender'              => config('mail.from.address'),
                         'recipient'           => $value->email,
                         'training_request_id' => $training_request_id,
-                        'mail_template'       => 'ipc.training_alert',
+                        'mail_template'       => 'admin.training_alert',
                         'title'               => 'NOTICE OF CONFIRMED TRAINING REQUEST',
                         'message'             => '',
                         'cc'                  => null,
                         'attachment'          => null,
                         'redirect_url'        => 'http://localhost/fleet_training_request/admin/training_requests'
                     ]);
-                }
+				}
+				
+				// send to requestor
+				$batch_mails->save_to_batch([
+					'email_category_id'   => null,
+					'subject'             => 'NOTICE OF TRAINING DETAILS',
+					'sender'              => config('mail.from.address'),
+					'recipient'           => $check->email,
+					'training_request_id' => $training_request_id,
+					'mail_template'       => 'customer.training_details',
+					'title'               => 'NOTICE OF TRAINING DETAILS',
+					'message'             => '',
+					'cc'                  => null,
+					'attachment'          => null
+				]);
+
+				$dealer = DB::table('dealer_details')
+					->leftJoin('dealers', 'dealer_details.dealer_id', '=', 'dealers.dealer_id')
+					->where('dealer_details.training_request_id',$training_request_id)
+					->get();
+				// To dealer
+				foreach($dealer as $value){
+					$batch_mails->save_to_batch([
+						'email_category_id' => null,
+						'subject'           => 'NOTICE OF CONFIRMED TRAINING REQUEST',
+						'sender'            => config('mail.from.address'),
+						'recipient'         => $value->email,
+						'title'             => 'NOTICE OF CONFIRMED TRAINING REQUEST',
+						'mail_template'		=> 'dealer.training_alert',
+						'redirect_url'      => null,
+						'cc'                => null,
+						'attachment'        => null,
+						'training_request_id' => $training_request_id
+					]); 
+				}
+			
+				// to dealer sales
+				$dealer_sales = DB::table('persons')
+					->where('person_type','dealer_sales')
+					->get();
+					
+				foreach ($dealer_sales as $value) {
+					$batch_mails->save_to_batch([
+						'subject'             => 'NOTICE OF CONFIRMED TRAINING REQUEST',
+						'sender'              => config('mail.from.address'),
+						'recipient'           => $value->email,
+						'title'               => 'NOTICE OF CONFIRMED TRAINING REQUEST',
+						'mail_template'       => 'ipc.training_alert',
+						'cc'                  => null,
+						'attachment'          => null,
+						'training_request_id' => $training_request_id
+					]);
+				}
+
+				$approvers = DB::table('approval_statuses as at')
+					->leftJoin('persons as pr', 'at.person_id','=','pr.person_id')
+					->where('at.training_request_id',$training_request_id)
+					->get();
+
+				foreach ($approvers as $value) {
+					$batch_mails->save_to_batch([
+						'subject'             => 'NOTICE OF CONFIRMED TRAINING REQUEST',
+						'sender'              => config('mail.from.address'),
+						'recipient'           => $value->email,
+						'title'               => 'NOTICE OF CONFIRMED TRAINING REQUEST',
+						'mail_template'       => 'approver.training_alert',
+						'cc'                  => null,
+						'attachment'          => null,
+						'training_request_id' => $training_request_id
+					]);
+				}
+
 
 				$content = [
 					'type'    => 'success',

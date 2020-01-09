@@ -17,6 +17,6 @@ class ApprovalStatus extends Model
 
     public function approver()
     {
-        return $this->belongsTo('App\Approver', 'approver_id', 'approver_id');
+        return $this->belongsTo('App\Person', 'person_id', 'person_id');
     }
 }

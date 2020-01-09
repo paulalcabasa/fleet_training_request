@@ -26,5 +26,10 @@ class Person extends Model
     {
         return $this->hasMany('App\DesignatedTrainor', 'person_id', 'person_id');
     }
+
+    public function approval_statuses()
+	{
+		return $this->hasMany('App\ApprovalStatus', 'person_id', 'person_id');
+	}
 	
 }

@@ -203,7 +203,7 @@
 					<tr>
 						<td align="center" style="color: #343434; font-size: 24px; font-family: Quicksand, Calibri, sans-serif; font-weight:700;letter-spacing: 3px; line-height: 35px;"
 							class="main-header">
-                            <div style="line-height: 35px">NOTICE OF TRAINING REQUEST</div>
+                            <div style="line-height: 35px"><?php echo $content['title'];?></div>
 						</td>
 					</tr>
 
