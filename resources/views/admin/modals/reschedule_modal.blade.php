@@ -12,14 +12,23 @@
                         <div class="col-md-3"></div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label>New Training Schedule</label>
+                                <label>New Training Date</label>
                                 <div class='input-group date' id='datetimepicker1'>
-                                    <input type='text' id="training_date" class="form-control"/>
+                                    <input type='text' id="training_date" data-format="yyyy-MM-dd" class="form-control"/>
                                     <span class="input-group-addon">
                                         <span class="glyphicon glyphicon-calendar"></span>
                                     </span>
                                 </div>
                             </div>
+                            <div class="form-group">
+                                <label>New Training Time</label>
+                              
+                                <select v-model="training_time" class="form-control">
+                                    <option v-for="(row,index) in time_options" :value="row.value">@{{ row.label}}</option>
+                                </select>    
+                                
+                            </div>
+                            
                         </div>
                         <div class="col-md-3"></div>
                     </div>

@@ -18,7 +18,9 @@ class Email extends Model
         'redirect_url',
         'accept_url',
         'deny_url',
-        'sent_at'
+        'sent_at',
+        'mail_template',
+        'training_request_id'
     ];
     protected $primaryKey = 'email_id';
     public $timestamps = false;

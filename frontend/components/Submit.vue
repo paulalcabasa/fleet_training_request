@@ -51,7 +51,7 @@
           <v-btn 
           id="submit_button"
           color="red darken-1 white--text" 
-
+          
           @click="submit"
           :disabled="button_status.is_disabled"
           :loading="$store.state.request.isSubmitting"

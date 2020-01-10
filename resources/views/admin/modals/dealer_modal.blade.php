@@ -21,9 +21,15 @@
                         <div class="form-group">
                             <label for="branch">Branch</label>
                             <input type="text" class="form-control" id="branch" v-model="form.branch">
-    
                             <span v-if="errors.branch" class="text-danger">
                                 @{{ errors.branch[0] }}
+                            </span>
+                        </div>
+                        <div class="form-group">
+                            <label for="branch">Email</label>
+                            <input type="text" class="form-control" id="branch" v-model="form.email">
+                            <span v-if="errors.email" class="text-danger">
+                                @{{ errors.email[0] }}
                             </span>
                         </div>
                     </div>

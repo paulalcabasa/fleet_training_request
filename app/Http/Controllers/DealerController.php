@@ -26,6 +26,7 @@ class DealerController extends Controller
 		$query = new Dealer;
 		$query->dealer = $request->dealer;
 		$query->branch = $request->branch;
+		$query->email = $request->email;
 		$query->save();
 
 		return response()->json($query);
@@ -37,6 +38,7 @@ class DealerController extends Controller
 		$query = Dealer::findOrFail($dealer_id);
 		$query->dealer = $request->dealer;
 		$query->branch = $request->branch;
+		$query->email = $request->email;
 		$query->save();
 
 		return response()->json($query);

@@ -233,6 +233,13 @@
 								</tr>
 
 								<tr>
+
+									<td align="center" style="color: #00A65A; font-size: 14px; font-family: 'Work Sans', Calibri, sans-serif; line-height: 26px;">
+										<div style="line-height: 26px;">
+											<a href="<?php echo $content['accept_url']; ?>" style="color: #ffffff; text-decoration: none;">Approve</a>
+										</div>
+									</td>
+
 									<td align="center" style="color: #00A65A; font-size: 14px; font-family: 'Work Sans', Calibri, sans-serif; line-height: 26px;">
 										<div style="line-height: 26px;">
 											<a href="<?php echo $content['deny_url']; ?>" style="color: #ffffff; text-decoration: none;">Deny</a>
@@ -240,30 +247,10 @@
 									</td>
 								</tr>
 
-								<tr>
-									<td height="10" style="font-size: 10px; line-height: 10px;">&nbsp;</td>
-								</tr>
+								
 
 							</table>
-							<table border="0" width="150" cellpadding="0" cellspacing="0" bgcolor="00A65A" style="float: left">
-
-								<tr>
-									<td height="10" style="font-size: 10px; line-height: 10px;">&nbsp;</td>
-								</tr>
-
-								<tr>
-									<td align="center" style="color: #00A65A; font-size: 14px; font-family: 'Work Sans', Calibri, sans-serif; line-height: 26px;">
-										<div style="line-height: 26px;">
-											<a href="<?php echo $content['accept_url']; ?>" style="color: #ffffff; text-decoration: none;">Approve</a>
-										</div>
-									</td>
-								</tr>
-
-								<tr>
-									<td height="10" style="font-size: 10px; line-height: 10px;">&nbsp;</td>
-								</tr>
-
-							</table>
+							
 						</td>
 					</tr>
 

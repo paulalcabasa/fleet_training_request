@@ -252,7 +252,7 @@ export default {
       this.$store.commit('request/UPDATE_FORM', {key:field,value:value})
     },
     fetchDealers () {
-      axios.get(`${process.env.MIX_API_URL}guest/dealers/get`)
+      axios.get(`${this.api_url}guest/dealers/get`)
       .then(({data}) => {
         data.forEach(element => {
           element.dealer = element.dealer + ' | ' + element.branch
@@ -264,7 +264,7 @@ export default {
       })
     },
     fetchUnitModels () {
-      axios.get(`${process.env.MIX_API_URL}guest/unit_models/get`)
+      axios.get(`${this.api_url}guest/unit_models/get`)
       .then(({data}) => {
         this.models = data;
       })

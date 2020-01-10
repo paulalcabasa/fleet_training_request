@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 use App\Schedule;
 use App\TrainingProgram;
-use App\Approver;
+use App\Person;
 use App\ApprovalStatus;
 use App\TrainingRequest;
 use App\Services\SendEmail;
@@ -22,14 +22,15 @@ class ApproveRequestController extends Controller
         $training_request = DB::table('training_requests')->where('training_request_id', $training_request_id)->first();
         
         if ($training_request) {
-            $query = DB::table('training_requests')->where('training_request_id', $training_request->training_request_id)
+              $query = DB::table('training_requests')->where('training_request_id', $training_request->training_request_id)
                 ->update([
-                    'request_status' => $request->request_status
+                    'status' => $request->request_status
                 ]);
-                
             // If $query == 1 email sent
             if ($query) {
                 if ($request->request_status == 'denied') {
+        			// delete previous schedule
+                	$delete_sched = DB::table('schedules')->where('training_request_id',$training_request_id)->delete();
                     return response()->json($query);
                 }
                 else {
@@ -42,33 +43,33 @@ class ApproveRequestController extends Controller
                     $query->created_by          = $training_request->company_name . ' | ' . $training_request->contact_person;
                     $query->save();
 
-                    $approvers = Approver::all();
-    
+                   // $approvers = Approver::all();
+                    $approvers = DB::table('persons')->where('person_type','approver')->get();
+                  
                     foreach ($approvers as $value) {
                         $approval_status = new ApprovalStatus;
                         $approval_status->training_request_id = $training_request->training_request_id;
-                        $approval_status->approver_id = $value['approver_id'];
+                        $approval_status->person_id = $value->person_id; // users person id as approver id
                         $approval_status->save();
 
-                        $approver_id = $approval_status->approver_id;
-                        $approver = Approver::findOrFail($approver_id);
-                        $training_program = TrainingProgram::findOrFail($training_request->training_program_id);
-
-                        $batch_mails->save_to_batch([
-                            'email_category_id' => config('constants.superior_approval'),
-                            'subject'           => 'Training Request Approval',
-                            'sender'            => config('mail.from.address'),
-                            'recipient'         => $approver->email,
-                            'title'             => 'Training Request Approval',
-                            'message'           => 'Greetings! '. $training_request->contact_person .' of <strong>'. $training_request->company_name .'</strong> is requesting for a <br/>
-                            training program                                                        : '. $training_program->program_title .' <br/>
-                            on       '. Carbon::parse($training_request->training_date)->format('M d, Y D - h: i A'),
-                            'cc'         => null,
-                            'attachment' => null,
-                            'accept_url' => route('superior_approval', ['approval_status_id' => $approval_status->approval_status_id]),
-                            'deny_url'   => route('superior_disapproval', ['approval_status_id' => $approval_status->approval_status_id])
-                        ]);
-                    }
+                     
+                        $person = Person::findOrFail($value->person_id);
+                        
+                        $params = [
+                            'email_category_id'   => config('constants.superior_approval'),
+                            'training_request_id' => $training_request->training_request_id,
+                            'mail_template'       => 'approver.validate',
+                            'subject'             => 'NOTICE OF TRAINING REQUEST',
+                            'sender'              => config('mail.from.address'),
+                            'recipient'           => $person->email,
+                            'title'               => 'NOTICE OF TRAINING REQUEST',
+                            'cc'                  => null,
+                            'attachment'          => null,
+                            'accept_url'          => route('superior_approval', ['approval_status_id' => $approval_status->approval_status_id]),
+                            'deny_url'            => route('superior_disapproval', ['approval_status_id' => $approval_status->approval_status_id])
+                        ];
+                        $batch_mails->save_to_batch($params);
+                    }  
                     return response()->json($query);
                 }
             }

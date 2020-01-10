@@ -19,7 +19,7 @@
                 v-validate="'required'"
                 :items="dealers"
                 item-text="dealer"
-                item-value="dealer"
+                item-value="dealer_id"
                 :error-messages="errors.first('Dealership Name')"
                 search-input
                 outline
@@ -120,7 +120,7 @@ export default {
       get () {
         return this.$store.state.request.form.dealer_info.dealership_name
       },
-      set (val) {
+      set (val,text) {
         this.$store.commit('request/UPDATE_DEALER_FORM', {key:'dealership_name',value:val})
       }
     },
@@ -159,6 +159,10 @@ export default {
   },
   mounted () {
     this.getDealers()
+  /*    this.$store.commit('request/NEXT_PAGE');
+     this.$store.commit('request/NEXT_PAGE');
+     this.$store.commit('request/NEXT_PAGE');
+     this.$store.commit('request/NEXT_PAGE'); */
   },
   methods: {
     updateForm (field, value) {
@@ -168,7 +172,7 @@ export default {
       this.$store.commit('request/NEXT_PAGE')
     },
     getDealers () {
-      axios.get(`${this.api_url}/guest/dealers/get`)
+      axios.get(`${this.api_url}guest/dealers/get`)
       .then(({data}) => {
         data.forEach(element => {
           element.dealer = element.dealer + ' | ' + element.branch

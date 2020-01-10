@@ -36,6 +36,7 @@
                   name="Training Date"
                   v-validate="'required'"
                   :error-messages="errors.first('Training Date')"
+                  :min="nowDate" 
                   :allowed-dates="allowedDates"
                   :reactive="reactive"
                   width="100%"
@@ -50,8 +51,22 @@
                 </v-dialog>
               </v-flex>
             </v-layout>
-
             <v-layout justify-center row wrap>
+              <v-flex xs8 sm8 md8 lg5>
+                <v-select
+                label="Training Time"
+                name="Training Time"
+                v-model="training_time"
+                v-validate="'required'"
+                :error-messages="errors.first('Training Time')"
+                :items="training_times"
+                item-text="label"
+                item-value="value"
+                outline
+                ></v-select>
+              </v-flex>
+            </v-layout>
+           <!--  <v-layout justify-center row wrap>
               <v-flex xs8 sm8 md8 lg5>
                 <v-dialog
                   ref="dialog2"
@@ -83,7 +98,7 @@
                   </v-time-picker>
                 </v-dialog>
               </v-flex>
-            </v-layout>
+            </v-layout> -->
 
             <v-layout justify-center row wrap>
               <v-flex xs8 sm8 md8 lg5>
@@ -107,6 +122,18 @@
                 v-model="training_address"
                 v-validate="'required'"
                 :error-messages="errors.first('Training Venue Address')"
+                outline
+                ></v-text-field>
+              </v-flex>
+            </v-layout>
+
+            <v-layout justify-center row wrap>
+              <v-flex xs8 sm8 md8 lg5>
+                <v-text-field
+                label="Remarks"
+                name="Remarks"
+                v-model="remarks"
+                :error-messages="errors.first('Remarks')"
                 outline
                 ></v-text-field>
               </v-flex>
@@ -159,11 +186,21 @@ export default {
       // date: new Date().toISOString().substr(0, 10),
       modal: false,
       reactive: true,
-      training_venues: ['Fleet Customer Premises', 'Isuzu Training Center'], // Isuzu Training Center
+      training_venues: ['Fleet Customer Premises', 'Isuzu Training Center', 'Dealer Premises'], // Isuzu Training Center
+      training_times: [
+        { label : 'AM', value: 'AM' },
+        { label : 'PM', value: 'PM' },
+        { label : 'Whole day', value: 'Whole day' },
+      ],
       disabledDates: [],
       shouldDisable: false,
       timePickerModal: false,
-      time: ''
+      time: '',
+      nowDate: new Date().toISOString().slice(0,10),
+      date: new Date(), 
+      picker: new Date().toISOString().substr(0, 10),
+     
+    
     }
   },
   computed: {
@@ -224,6 +261,14 @@ export default {
         this.$store.commit('request/UPDATE_FORM', {key:'company_name',value:val})
       }
     },
+    remarks: {
+      get () {
+        return this.$store.state.request.form.remarks
+      },
+      set (val) {
+        this.$store.commit('request/UPDATE_FORM', {key:'remarks',value:val})
+      }
+    },
     training_participants: {
       get () {
         return this.$store.state.request.form.training_participants
@@ -231,6 +276,10 @@ export default {
       set (val) {
         this.$store.commit('request/UPDATE_FORM', {key:'training_participants',value:val})
       }
+    },
+    getEndDate() {
+     var endDate = new Date(this.date.getFullYear(), this.date.getMonth() + 1, 10);
+     return endDate.toISOString().slice(0,10)
     }
   },
   mounted () {
@@ -246,7 +295,7 @@ export default {
     },
 
     getDisabledDates () {
-      axios.get(`${process.env.MIX_API_URL}guest/schedules/get`)
+      axios.get(`${this.api_url}guest/schedules/get`)
       .then(({data}) => {
         var dates = []
         data.map((date) => {
@@ -296,9 +345,10 @@ export default {
     addDisabledDates () {
       var now = moment().format('YYYY-MM-DD')
       var tomorrow = moment(now).add(1, 'day').format('YYYY-MM-DD')
-      var days = 5;
+      var days = 13;
       var disabled = [];
 
+      disabled.push(moment().format('YYYY-MM-DD'));
       for (let index = 0; index < days; index++) {
         disabled.push(moment(tomorrow).add(index, 'day').format('YYYY-MM-DD'))
       }

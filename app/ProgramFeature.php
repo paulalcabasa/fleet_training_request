@@ -14,4 +14,5 @@ class ProgramFeature extends Model
     {
         return $this->belongsTo('App\TrainingProgram', 'training_program_id', 'training_program_id');
     }
+
 }

@@ -30,13 +30,14 @@ const request = {
       training_program_id: 0,
       training_participants: [],
       unit_models: [],
-
+      training_program_ids :[],
+      remarks : '',
       dealer_info: {
         dealership_name: '',
         requestor_name: '',
         position: '',
         email: '',
-        contact: ''
+        contact: '',
       }
     },
     training_programs: [],
@@ -103,6 +104,8 @@ const request = {
         training_venue: '',
         training_address: '',
         training_program_id: 0,
+        training_program_ids: [],
+        remarks : '',
         training_participants: [],
         unit_models: [],
 
@@ -111,7 +114,7 @@ const request = {
           requestor_name: '',
           position: '',
           email: '',
-          contact: ''
+          contact: '',
         }
       }
     },
@@ -202,8 +205,8 @@ const request = {
       commit('INITIALIZE_LOADER')
 
       // Added Time on training_date for adjustment feature
-      let datetime = state.form.training_date + ' ' + state.form.training_time
-      payload['training_date'] = datetime
+     // let datetime = state.form.training_date + ' ' + state.form.training_time
+     // payload['training_date'] = datetime
 
       const submit = async () => {
         try {
@@ -219,7 +222,7 @@ const request = {
         commit('TERMINATE_LOADER')
       })
       .then(() => {
-        commit('NAVIGATE_PAGE', 1)
+    //    commit('NAVIGATE_PAGE', 1)
       })
       .then(() => {
         iziToast.success({

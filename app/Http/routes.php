@@ -17,8 +17,10 @@ Route::get('/guest/send_fake_email', 'FakeEmailTestsController@send');
 // ============== OUTSIDE SYSTEM ================ //
 Route::get('superior/approve/{approval_status_id}', 'SuperiorController@approve')->name('superior_approval');
 Route::get('superior/disapprove/{approval_status_id}', 'SuperiorController@disapprove')->name('superior_disapproval');
+Route::post('superior/disapprove_request', 'SuperiorController@disapprove_request');
 Route::get('customer/confirm_request/{training_request_id}', 'RequestorController@confirm')->name('customer_confirmation');
 Route::get('customer/cancellation_request/{training_request_id}', 'RequestorController@cancel')->name('customer_cancellation');
+Route::post('customer/cancel_training_request/', 'RequestorController@cancel_training_request');
 Route::get('customer/reschedule_request/{training_request_id}', 'RequestorController@reschedule')->name('customer_reschedule');
 
 // ============== Public Views ================ //
@@ -97,6 +99,13 @@ Route::group(['middleware' => ['admin_guard']], function () {
     Route::put('/admin/approvers/put/{approver_id}', 'ApproverController@update');
     Route::delete('/admin/approvers/delete/{approver_id}', 'ApproverController@destroy');
 
+    // Persons
+    Route::get('/admin/persons/get', 'PersonController@index');
+    Route::get('/admin/persons/get/{person_id}', 'PersonController@show');
+    Route::post('/admin/persons/post', 'PersonController@store');
+    Route::put('/admin/persons/put/{person_id}', 'PersonController@update');
+    Route::delete('/admin/persons/delete/{person_id}', 'PersonController@destroy');
+
     // Gallery
     Route::get('/admin/gallery/get_images/{training_program_id}', 'TrainingProgramController@get_images');
     Route::post('/admin/gallery/upload_image', 'TrainingProgramController@upload_image');
@@ -130,6 +139,7 @@ Route::group(['middleware' => ['admin_guard']], function () {
     Route::get('admin/training_programs', function() { return view('admin.training_programs'); })->name('training_programs');
     Route::get('admin/approvers', function() { return view('admin.approvers'); })->name('approvers');
     Route::get('admin/trainors', function() { return view('admin.trainors'); })->name('trainors');
+    Route::get('admin/persons', function() { return view('admin.persons'); })->name('persons');
     Route::get('admin/schedules', function() { return view('admin.schedules'); })->name('schedules');
     Route::get('admin/special_trainings', function() { return view('admin.special_trainings'); })->name('special_trainings');
     Route::get('admin/calendar', function() { return view('admin.calendar'); })->name('calendar');

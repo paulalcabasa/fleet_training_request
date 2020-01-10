@@ -36,7 +36,8 @@ class TrainorController extends Controller
         $query->email = $request->email;
         $query->created_by = $request->session()->get('full_name');
         $query->save();
-
+        
+   
         return 201;
     }
     

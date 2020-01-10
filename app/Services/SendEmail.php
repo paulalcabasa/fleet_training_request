@@ -22,7 +22,7 @@ class SendEmail
     public function send($params)
     {
         $data = [
-            'email_category_id' => $params['email_category_id'],
+            'mail_template' => $params['mail_template'],
             'subject'	     => $params['subject'],
             'sender'	     => $params['sender'],
             'recipient'	     => $params['recipient'],
@@ -32,13 +32,13 @@ class SendEmail
             'content'	     => $params['content']
         ];
 
-        if ($data['email_category_id'] == '2') $template = 'superior_email_template';
+ /*        if ($data['email_category_id'] == '2') $template = 'superior_email_template';
         else if ($data['email_category_id'] == '5') $template = 'email_template';
         else if ($data['email_category_id'] == '6') $template = 'requestor_email';
         else if ($data['email_category_id'] == '7') $template = 'default_email';
-        else $template = 'default_email';
+        else $template = 'default_email'; */
 
-        return Mail::send('emails.' . $template, ['content' => $data['content']], function ($mail) use ($data) {
+        return Mail::send('emails.' . $data['mail_template'], ['content' => $data['content']], function ($mail) use ($data) {
             $mail->from($data['sender'], 'Fleet Training Request System');
             $mail->to($data['recipient'])->subject($data['subject']);
             
