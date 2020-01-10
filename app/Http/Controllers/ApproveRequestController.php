@@ -29,6 +29,8 @@ class ApproveRequestController extends Controller
             // If $query == 1 email sent
             if ($query) {
                 if ($request->request_status == 'denied') {
+        			// delete previous schedule
+                	$delete_sched = DB::table('schedules')->where('training_request_id',$training_request_id)->delete();
                     return response()->json($query);
                 }
                 else {

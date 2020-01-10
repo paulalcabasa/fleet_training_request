@@ -51,6 +51,15 @@
                             The request has already been disapproved.
                             </v-alert>
 
+                            <v-alert
+                            :value="true"
+                            type="error"
+                            v-if="status == 'approved'"
+                            >
+                            The request has already been approved.
+                            </v-alert>
+
+
                           <v-alert
                             :value="true"
                             type="error"

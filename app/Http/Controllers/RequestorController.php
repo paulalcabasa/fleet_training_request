@@ -198,7 +198,10 @@ class RequestorController extends Controller
 					'status'               => 'cancelled',
 					'cancellation_remarks' => $reason
 				]);
-	
+			
+			// delete previous schedule
+        	$delete_sched = DB::table('schedules')->where('training_request_id',$training_request_id)->delete();
+
 			if ($query) {
 		
 				/* email receivers

@@ -117,6 +117,9 @@ class SuperiorController extends Controller
                         'status' => 'denied',
                         'remarks' => $request->reason
                     ]);
+                
+                $delete_sched = DB::table('schedules')->where('training_request_id',$approval->training_request_id)->delete();
+         
 
                 DB::table('training_requests')
                     ->where('training_request_id', $approval->training_request_id)
