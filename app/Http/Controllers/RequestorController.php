@@ -173,16 +173,42 @@ class RequestorController extends Controller
 
 	public function cancel($training_request_id, BatchMails $batch_mails)
 	{
+		$training_request = TrainingRequest::findOrFail($training_request_id);
+
+        $data = [
+            'base_url'            => url('/'),
+            'training_request_id' => $training_request_id,
+			'training_request'    => $training_request,
+			'status'              => $training_request->status
+        ];
+        return response()->view('public_pages.cancel_request',compact('data'));
+	}
+
+	public function cancel_training_request(Request $request, BatchMails $batch_mails){
+		
+		$training_request_id = $request->training_request_id;
+		$reason = $request->reason;
+	
 		$check = TrainingRequest::findOrFail($training_request_id);
 
-		if ($check->requestor_confirmation == 'pending') {
+		if ($check->status == 'approved') {
 			$query = DB::table('training_requests')
 				->where('training_request_id', $training_request_id)
 				->update([
-					'requestor_confirmation' => 'cancelled'
+					'status'               => 'cancelled',
+					'cancellation_remarks' => $reason
 				]);
 	
 			if ($query) {
+		
+				/* email receivers
+					1. Admin
+					2. Dealer
+					3. IPC
+					4. Approver
+					5. Customer
+				*/
+
 				$user_access = UserAccess::select('et.email')
                     ->leftJoin('email_tab as et', 'et.employee_id', '=', 'user_access_tab.employee_id')
                     ->where([
@@ -190,34 +216,110 @@ class RequestorController extends Controller
                         'user_type_id' => 2
                     ])
                     ->get();
-    
+			
                 foreach ($user_access as $value) {
                     $query = $batch_mails->save_to_batch([
-                        'email_category_id' => null,
-                        'subject'           => 'Training Program',
-                        'sender'            => config('mail.from.address'),
-                        'recipient'         => $value->email,
-                        'title'             => 'Training Program',
-                        'message'           => $check->contact_person . ' of <strong>'. $check->company_name .'</strong><br/>
-                            has been cancelled the training program.',
+                        'email_category_id'   => null,
+                        'subject'             => 'NOTICE OF CANCELLED TRAINING REQUEST',
+                        'sender'              => config('mail.from.address'),
+                        'recipient'           => $value->email,
+                        'title'               => 'NOTICE OF CANCELLED TRAINING REQUEST',
+                        'training_request_id' => $training_request_id,
+                        'mail_template'       => 'admin.cancel_request',
                         'cc'           => null,
                         'attachment'   => null,
                         'redirect_url' => 'http://localhost/fleet_training_request/admin/training_requests'
                     ]);
-                }
+				}
+				
+				// send to requestor
+				$query = $batch_mails->save_to_batch([
+					'email_category_id'   => null,
+					'subject'             => 'NOTICE OF CANCELLED TRAINING REQUEST',
+					'sender'              => config('mail.from.address'),
+					'recipient'           => $check->email,
+					'title'               => 'NOTICE OF CANCELLED TRAINING REQUEST',
+					'training_request_id' => $training_request_id,
+					'mail_template'       => 'customer.cancel_request',
+					'cc'           => null,
+					'attachment'   => null,
+					'redirect_url' => 'http://localhost/fleet_training_request/admin/training_requests'
+				]);	
+
+				// send to dealer
+				$dealer = DB::table('dealer_details')
+					->leftJoin('dealers', 'dealer_details.dealer_id', '=', 'dealers.dealer_id')
+					->where('dealer_details.training_request_id',$training_request_id)
+					->get();
+				// To dealer
+				foreach($dealer as $value){
+					$batch_mails->save_to_batch([
+						'email_category_id'   => null,
+						'subject'             => 'NOTICE OF CANCELLED TRAINING REQUEST',
+						'sender'              => config('mail.from.address'),
+						'recipient'           => $value->email,
+						'title'               => 'NOTICE OF CANCELLED TRAINING REQUEST',
+						'training_request_id' => $training_request_id,
+						'mail_template'       => 'dealer.cancel_request',
+						'cc'           => null,
+						'attachment'   => null,
+						'redirect_url' => 'http://localhost/fleet_training_request/admin/training_requests'
+					]);	
+				}
+
+
+				// dealer sales
+				$dealer_sales = DB::table('persons')
+					->where('person_type','dealer_sales')
+					->get();
+					
+				foreach ($dealer_sales as $value) {
+					$batch_mails->save_to_batch([
+						'email_category_id'   => null,
+						'subject'             => 'NOTICE OF CANCELLED TRAINING REQUEST',
+						'sender'              => config('mail.from.address'),
+						'recipient'           => $value->email,
+						'title'               => 'NOTICE OF CANCELLED TRAINING REQUEST',
+						'training_request_id' => $training_request_id,
+						'mail_template'       => 'ipc.cancel_request',
+						'cc'           => null,
+						'attachment'   => null,
+						'redirect_url' => 'http://localhost/fleet_training_request/admin/training_requests'
+					]);	
+				}
+
+				// approvers
+				$approvers = DB::table('approval_statuses as at')
+					->leftJoin('persons as pr', 'at.person_id','=','pr.person_id')
+					->where('at.training_request_id',$training_request_id)
+					->get();
+
+				foreach ($approvers as $value) {
+						$batch_mails->save_to_batch([
+						'email_category_id'   => null,
+						'subject'             => 'NOTICE OF CANCELLED TRAINING REQUEST',
+						'sender'              => config('mail.from.address'),
+						'recipient'           => $value->email,
+						'title'               => 'NOTICE OF CANCELLED TRAINING REQUEST',
+						'training_request_id' => $training_request_id,
+						'mail_template'       => 'approver.cancel_request',
+						'cc'           => null,
+						'attachment'   => null,
+						'redirect_url' => 'http://localhost/fleet_training_request/admin/training_requests'
+					]);	
+				}
 
 				$content = [
 					'type'    => 'success',
 					'message' => 'Your request has been cancelled.'
 				];
-				return response()->view('public_pages.message', compact('content'));
 			}
 			else {
 				$content = [
 					'type'    => 'info',
 					'message' => 'Ooops! Your request has been already cancelled.'
 				];
-				return response()->view('public_pages.message', compact('content'));
+
 			}
 		}
 		else {
@@ -225,22 +327,34 @@ class RequestorController extends Controller
 				'type'    => 'info',
 				'message' => 'Sorry! It seems you\'ve been already made an action here.'
 			];
-			return response()->view('public_pages.message', compact('content'));
+
 		}
+
+		return response()->json($content);
+
 	}
 	
 	public function reschedule($training_request_id, BatchMails $batch_mails)
 	{
+		/* 
+			Approver
+			Customer
+			Admin
+			Dealer
+			IPC
+		*/
 		$check = TrainingRequest::findOrFail($training_request_id);
 
-		if ($check->requestor_confirmation == 'pending') {
+		if ($check->status == 'approved') {
 			$query = DB::table('training_requests')
 				->where('training_request_id', $training_request_id)
 				->update([
-					'requestor_confirmation' => 'reschedule'
+					'status' => 'reschedule'
 				]);
 
 			if ($query) {
+
+				// send to admin 
 				$user_access = UserAccess::select('et.email')
 					->leftJoin('email_tab as et', 'et.employee_id', '=', 'user_access_tab.employee_id')
 					->where([
@@ -251,19 +365,80 @@ class RequestorController extends Controller
 
 				foreach ($user_access as $value) {
 					$query = $batch_mails->save_to_batch([
-						'email_category_id' => null,
-						'subject'           => 'Reschedule Training Program',
-						'sender'            => config('mail.from.address'),
-						'recipient'         => $value->email,
-						'title'             => 'Reschedule Training Program',
-						'message'           => $check->contact_person . ' of <strong>'. $check->company_name .'</strong><br/>
-							has been requesting for a reschedule of their training program. <br/>
-							You may call him/her on this number: <strong>'.$check->contact_number.'</strong>',
+						'email_category_id'   => null,
+						'subject'             => 'Reschedule Training Program',
+						'sender'              => config('mail.from.address'),
+						'recipient'           => $value->email,
+						'title'               => 'Reschedule Training Program',
+						'training_request_id' => $training_request_id,
+						'mail_template'       => 'admin.reschedule',
 						'cc'           => null,
 						'attachment'   => null,
 						'redirect_url' => 'http://localhost/fleet_training_request/admin/training_requests'
 					]);
 				}
+
+				// to fleet customer
+				$query = $batch_mails->save_to_batch([
+					'email_category_id'   => config('constants.default_notification'),
+					'subject'             => 'Rescheduled Training Program',
+					'sender'              => config('mail.from.address'),
+					'recipient'           => $check->email,
+					'title'               => 'Rescheduled Training Program',
+					'mail_template'       => 'customer.reschedule',
+					'training_request_id' => $training_request_id
+				]);			
+
+				// send to dealer
+				$dealer = DB::table('dealer_details')
+					->leftJoin('dealers', 'dealer_details.dealer_id', '=', 'dealers.dealer_id')
+					->where('dealer_details.training_request_id',$training_request_id)
+					->get();
+				// To dealer
+				foreach($dealer as $value){
+					$batch_mails->save_to_batch([
+						'subject'             => 'Rescheduled Training Program',
+						'sender'              => config('mail.from.address'),
+						'recipient'           => $value->email,
+						'title'               => 'Rescheduled Training Program',
+						'training_request_id' => $training_request_id,
+						'mail_template'       => 'dealer.reschedule'
+					]);	
+				}
+
+				// dealer sales
+				$dealer_sales = DB::table('persons')
+					->where('person_type','dealer_sales')
+					->get();
+					
+				foreach ($dealer_sales as $value) {
+					$batch_mails->save_to_batch([
+						'subject'             => 'Rescheduled Training Program',
+						'sender'              => config('mail.from.address'),
+						'recipient'           => $value->email,
+						'title'               => 'Rescheduled Training Program',
+						'training_request_id' => $training_request_id,
+						'mail_template'       => 'ipc.reschedule',
+					]);	
+				}
+
+				// approvers
+				$approvers = DB::table('approval_statuses as at')
+					->leftJoin('persons as pr', 'at.person_id','=','pr.person_id')
+					->where('at.training_request_id',$training_request_id)
+					->get();
+
+				foreach ($approvers as $value) {
+						$batch_mails->save_to_batch([
+						'subject'             => 'Rescheduled Training Program',
+						'sender'              => config('mail.from.address'),
+						'recipient'           => $value->email,
+						'title'               => 'Rescheduled Training Program',
+						'training_request_id' => $training_request_id,
+						'mail_template'       => 'approver.reschedule'
+					]);	
+				}
+			
 
 				$content = [
 					'type'    => 'success',

@@ -26,72 +26,18 @@ class TrainingRequestController extends Controller
 		$denied = 0;
 
 		$sql = DB::select(
-			'SELECT
-
-			tr.training_request_id,
-			tr.request_status admin,
-			aps.status approver,
-			tr.requestor_confirmation requestor
-
-			FROM
-			training_requests tr
-
-			LEFT JOIN designated_trainors dt
-			ON dt.training_request_id = tr.training_request_id
-
-			LEFT JOIN approval_statuses aps
-			ON aps.training_request_id = tr.training_request_id'
+			"SELECT COUNT(CASE WHEN STATUS = 'pending' THEN 1 ELSE NULL END) pending,
+				COUNT(CASE WHEN STATUS = 'approved' THEN 1 ELSE NULL END) approved,
+				COUNT(CASE WHEN STATUS = 'confirmed' THEN 1 ELSE NULL END) confirmed,
+				COUNT(CASE WHEN STATUS = 'new' THEN 1 ELSE NULL END) new,
+				COUNT(CASE WHEN STATUS = 'denied' THEN 1 ELSE NULL END) denied,
+				COUNT(training_request_id) total
+			FROM training_requests"
 			);
+		
+		
+		return response()->json($sql[0]);
 
-		foreach ($sql as $value) {
-			if ($value->admin == 'denied' || $value->approver == 'denied' || $value->requestor == 'cancelled') {
-				$denied++;
-			}
-
-			else if ($value->admin == 'pending' || $value->approver == 'pending' || $value->requestor == 'pending' || $value->requestor == 'reschedule') {
-				$pending++;
-			}
-
-			else if ($value->admin == 'approved' || $value->approver == 'approved' || $value->requestor == 'confirmed') {
-				$approved++;
-			}
-
-			$all++;
-		}
-
-		return response()->json([
-			'all_requests'      => $all,
-			'pending_requests'  => $pending,
-			'approved_requests' => $approved,
-			'denied_requests'   => $denied
-		]);
-
-		// $query = TrainingRequest::with('approval_statuses')->get();
-		// $all = 0;
-		// $approved = 0;
-		// $pending = 0;
-		// $denied = 0;
-		// $stat = '';
-		// foreach ($query as $value) {
-		// 	// loop thru approval statuses and capture priority status
-		// 	foreach ($value['approval_statuses'] as $stats) {
-		// 		if ($stats['status'] == 'approved') $stat = 'approved';
-		// 		if ($stats['status'] == 'denied') $stat = 'denied';
-		// 		else $stat = 'pending';
-		// 	}
-		// 	// next append variables based on last stat value
-		// 	if ($stat == 'approved') $approved++;
-		// 	if ($stat == 'pending') $pending++;
-		// 	if ($stat == 'denied') $denied++;
-		// 	$all++;
-		// }
-
-		// return response()->json([
-		// 	'all_requests'      => $all,
-		// 	'pending_requests'  => $pending,
-		// 	'approved_requests' => $approved,
-		// 	'denied_requests'   => $denied
-		// ]);
 	}
 
 	public function approver_statuses($training_request_id)

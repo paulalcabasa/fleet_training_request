@@ -93,19 +93,40 @@ class SuperiorController extends Controller
 
     public function disapprove($approval_status_id, BatchMails $batch_mails)
     {
-        // Check if request is already denied and approved: cancel action
         $approval = ApprovalStatus::with('approver')->findOrFail($approval_status_id);
+
+        $data = [
+            'base_url' => url('/'),
+            'approval_status_id' => $approval_status_id,
+            'status' => $approval->status
+        ];
+        return response()->view('public_pages.disapprove',compact('data'));
+      
+    }
+
+    public function disapprove_request(Request $request, BatchMails $batch_mails)
+    {
+        $approval = ApprovalStatus::with('approver')->findOrFail($request->approval_status_id);
 
         if ($approval->status == 'pending') {
             // Disapprove request
             if ($approval) {
                 $updated = DB::table('approval_statuses')
                     ->where('approval_status_id', $approval->approval_status_id)
-                    ->update(['status' => 'denied']);
+                    ->update([
+                        'status' => 'denied',
+                        'remarks' => $request->reason
+                    ]);
+
+                DB::table('training_requests')
+                    ->where('training_request_id', $approval->training_request_id)
+                    ->update([
+                        'status' => 'denied'
+                    ]);
             }
             else {
                 $content = [
-                    'type' => 'error',
+                    'type'    => 'error',
                     'message' => 'Ooops! Something went wrong, file doesn\'t exists.'
                 ];
                 return response()->view('public_pages.message', compact('content'));
@@ -124,13 +145,15 @@ class SuperiorController extends Controller
     
                 foreach ($user_access as $value) {
                     $query = $batch_mails->save_to_batch([
-                        'email_category_id' => config('constants.superior_disapproval'),
-                        'subject'           => 'Training Program',
-                        'sender'            => config('mail.from.address'),
-                        'recipient'         => $value->email,
-                        'title'             => 'Training Program',
-                        'message'           => 'Sorry! The request has been <strong>disapproved</strong> by one of your approver '. $approval->approver->approver_name .'.<br/>
-                            The training program will not be granted. Thank you.',
+                        //'email_category_id' => config('constants.superior_disapproval'),
+                        'subject'             => 'NOTICE OF DISAPPROVAL',
+                        'sender'              => config('mail.from.address'),
+                        'recipient'           => $value->email,
+                        'mail_template'       => 'admin.denied_request',
+                        'title'               => 'NOTICE OF DISAPPROVAL',
+                        'training_request_id' => $approval->training_request_id,
+                     /*    'message'           => 'Sorry! The request has been <strong>disapproved</strong> by one of your approver '. $approval->approver->approver_name .'.<br/>
+                            The training program will not be granted. Thank you.', */
                         'cc'           => null,
                         'attachment'   => null,
                         'redirect_url' => 'http://localhost/fleet_training_request/admin/training_requests'
@@ -138,25 +161,27 @@ class SuperiorController extends Controller
                 }
                 
                 $content = [
-                    'type' => 'success',
-                    'message' => 'You have successfully disapproved a request.'
+                    'type'    => 'success',
+                    'message' => 'Request has been disapproved.'
                 ];
-                return response()->view('public_pages.message', compact('content'));
+              
             }
             else {
                 $content = [
-                    'type' => 'info',
+                    'type'    => 'info',
                     'message' => 'This request has been already disapproved.'
                 ];
-                return response()->view('public_pages.message', compact('content'));
+               
             }
         }
         else {
             $content = [
-                'type' => 'info',
+                'type'    => 'info',
                 'message' => 'This request has been already disapproved.'
             ];
-            return response()->view('public_pages.message', compact('content'));
-        }
+            
+        } 
+
+        return response()->json($content);
     }
 }

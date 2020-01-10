@@ -2,7 +2,7 @@
 
 @push('styles')
 	<link rel="stylesheet" href="{{ url('public/libraries/adminlte/dataTables.bootstrap.min.css') }}">
-	<link rel="stylesheet" href="{{ url('public/libraries/adminlte/bootstrap-datetimepicker.min.css') }}">
+	<link rel="stylesheet" href="{{ url('public/libraries/adminlte/bootstrap-datepicker.min.css') }}">
 	<style>
 		@media screen and (max-width: 1400px) {
 			.table-responsive {
@@ -29,7 +29,7 @@
 				<!-- small box -->
 				<div class="small-box bg-aqua shadow">
 					<div class="inner">
-						<h3>@{{ training_requests.all_requests }}</h3>
+						<h3>@{{ training_requests.total }}</h3>
 	
 						<p>Total Requests</p>
 					</div>
@@ -46,7 +46,7 @@
 				<div class="small-box bg-green shadow">
 					<div class="inner">
 						{{-- <h3>53<sup style="font-size: 20px">%</sup></h3> --}}
-						<h3>@{{ training_requests.approved_requests }}</h3>
+						<h3>@{{ training_requests.approved }}</h3>
 	
 						<p>Approved Requests</p>
 					</div>
@@ -61,7 +61,7 @@
 				<!-- small box -->
 				<div class="small-box bg-yellow shadow">
 					<div class="inner">
-						<h3>@{{ training_requests.pending_requests }}</h3>
+						<h3>@{{ training_requests.pending }}</h3>
 	
 						<p>Pending Requests</p>
 					</div>
@@ -76,7 +76,7 @@
 				<!-- small box -->
 				<div class="small-box bg-red shadow">
 					<div class="inner">
-						<h3>@{{ training_requests.denied_requests }}</h3>
+						<h3>@{{ training_requests.denied }}</h3>
 	
 						<p>Denied Requests</p>
 					</div>
@@ -86,6 +86,8 @@
 					<a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
 				</div>
 			</div>
+
+			
 		</div>
 	
 		<div class="box box-primary shadow-lg">
@@ -125,7 +127,7 @@
 												Approver Statuses
 											</a>
 										</li>
-										<li v-if="item.requestor_confirmation == 'reschedule'" class="text-left">
+										<li v-if="item.status == 'reschedule'" class="text-left">
 											<a v-on:click="editSchedule(item.training_request_id)">
 												<i class="fa fa-pencil text-default"></i>
 												Edit Schedule
@@ -189,7 +191,8 @@
 	<script src="{{ url('public/libraries/adminlte/jquery.dataTables.min.js') }}"></script>
 	<script src="{{ url('public/libraries/adminlte/dataTables.bootstrap.min.js') }}"></script>
 	{{-- <script src="{{ url('public/libraries/adminlte/jquery.datetimepicker.full.min.js') }}"></script> --}}
-	<script src="{{ url('public/libraries/adminlte/bootstrap-datetimepicker.min.js') }}"></script>
+	<script src="{{ url('public/libraries/adminlte/bootstrap-datepicker.min.js') }}"></script>
+	   <script src="{{ url('public/libraries/js/moment.js') }}"></script>
 	<script>
 
 		var table;
@@ -197,7 +200,10 @@
 		$(function() {
 			// $.datetimepicker.setLocale('en');
 			// $('#datetimepicker').datetimepicker();
-			$('#datetimepicker1').datetimepicker();
+			$('#datetimepicker1').datepicker({
+				format: "yyyy-mm-dd",
+        		autoclose: true
+			});
 			
 			$('.table-responsive').on('show.bs.dropdown', function () {
 				$('.table-responsive').css( "overflow", "inherit" );
@@ -215,6 +221,7 @@
 					training_requests: {},
 					data_loaded: 0,
 					items: [],
+					training_time : '',
 					training_request: {},
 					approval_statuses: [],
 					training_request_id: 0,
@@ -225,8 +232,25 @@
 						'approved': 'label label-success',
 						'confirmed': 'label label-success',
 						'denied'  : 'label label-danger',
+						'cancelled'  : 'label label-danger',
 						'new'     : 'label label-info',
-					}
+						'reschedule'     : 'label label-warning',
+					},
+					time_options : [
+						{
+							label : "AM",
+							value : "AM"
+						},
+						{
+							label : "PM",
+							value : "PM"
+						},
+						{
+							label : "Whole day",
+							value : "Whole day"
+						}
+					]
+				
 				}
 			},
 			computed: {
@@ -256,7 +280,7 @@
 					});
 
 					return items
-				}	
+				}	 
 			},
 			created() {
 				this.getDashboard();
@@ -265,8 +289,13 @@
 			methods: {
 				saveSchedule() {
 					var training_date = document.getElementById('training_date').value;
-					axios.put(`${this.base_url}/admin/training_requests/reschedule/${this.training_request_id}`, {training_date: training_date})
-					.then(({data}) => {
+					var self = this;
+					axios.put(`${this.base_url}/admin/training_requests/reschedule/${this.training_request_id}`, 
+						{
+							training_date: training_date,
+							training_time : self.training_time
+						}
+					).then(({data}) => {
 						if (data) {
 							$('#reschedule_modal').modal('hide');
 							this.getItems();

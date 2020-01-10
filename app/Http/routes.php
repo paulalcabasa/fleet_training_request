@@ -17,8 +17,10 @@ Route::get('/guest/send_fake_email', 'FakeEmailTestsController@send');
 // ============== OUTSIDE SYSTEM ================ //
 Route::get('superior/approve/{approval_status_id}', 'SuperiorController@approve')->name('superior_approval');
 Route::get('superior/disapprove/{approval_status_id}', 'SuperiorController@disapprove')->name('superior_disapproval');
+Route::post('superior/disapprove_request', 'SuperiorController@disapprove_request');
 Route::get('customer/confirm_request/{training_request_id}', 'RequestorController@confirm')->name('customer_confirmation');
 Route::get('customer/cancellation_request/{training_request_id}', 'RequestorController@cancel')->name('customer_cancellation');
+Route::post('customer/cancel_training_request/', 'RequestorController@cancel_training_request');
 Route::get('customer/reschedule_request/{training_request_id}', 'RequestorController@reschedule')->name('customer_reschedule');
 
 // ============== Public Views ================ //
