@@ -19,7 +19,7 @@ class CalendarController extends Controller
 
 	public function events()
 	{
-		$query = Schedule::with('training_request.training_program')->get();
+		$query = Schedule::with('training_request')->get();
 
 		foreach ($query as $key => $value) {
 			$query[$key]['startDate'] = new Carbon($value->start_date);
@@ -39,7 +39,7 @@ class CalendarController extends Controller
 
 	public function event($schedule_id)
 	{
-		return Schedule::with('training_request.training_program')
+		return Schedule::with('training_request')
 			->where('schedule_id', $schedule_id)
 			->first();
 	}
