@@ -56,9 +56,8 @@ class RescheduleController extends Controller
                 'title'               => 'Rescheduled Training Program',
                 'mail_template'       => 'customer.confirm_new_details',
                 'training_request_id' => $training_request_id,
-                'accept_url'          => route('customer_confirmation', ['training_request_id' => $training_request_id]),
-                'deny_url'            => route('customer_cancellation', ['training_request_id' => $training_request_id]),
-
+                'accept_url'          => config('app.pub_url')  . "/customer/confirm_request/".$training_request_id,
+                'deny_url'            => config('app.pub_url')  . "/customer/cancellation_request/".$training_request_id
             ]);
 
             /* // to admin

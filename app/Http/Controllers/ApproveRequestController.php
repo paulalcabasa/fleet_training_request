@@ -65,9 +65,13 @@ class ApproveRequestController extends Controller
                             'title'               => 'NOTICE OF TRAINING REQUEST',
                             'cc'                  => null,
                             'attachment'          => null,
-                            'accept_url'          => route('superior_approval', ['approval_status_id' => $approval_status->approval_status_id]),
-                            'deny_url'            => route('superior_disapproval', ['approval_status_id' => $approval_status->approval_status_id])
+                            'accept_url'          => config('app.pub_url')  . "/superior/approve/".$approval_status->approval_status_id,
+                            'deny_url'          => config('app.pub_url')  . "/superior/disapprove/".$approval_status->approval_status_id
                         ];
+
+                        	
+        
+        
                         $batch_mails->save_to_batch($params);
                     }  
                     return response()->json($query);
