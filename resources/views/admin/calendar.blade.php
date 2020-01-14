@@ -67,19 +67,20 @@
             methods: {
                 reason: function(training_request) {
                     if (training_request) {
-                        return training_request.training_program.program.program_title;
+                        return training_request.company_name;
                     }
                 },
                 getEvents: function() {
                     axios.get(`${this.base_url}/admin/calendar/events`)
                     .then(({data}) => {
+                    
                         var events = [];
                         data.forEach(element => {
                             events.push({
                                 schedule_id: element.schedule_id,
                                 title      : 
                                     element.training_request != null ? 
-                                    element.training_request.training_program.program_title + ' | ' +  element.training_request.company_name :
+                                    element.training_request.company_name :
                                     element.reason,
                                 start      : element.start_date,
                                 end        : element.end_date + ' 23:59:59',
@@ -113,7 +114,7 @@
                     axios.get(`${this.base_url}/admin/calendar/events/${schedule_id}`)
                     .then(({data}) => {
                         data.reason = data.training_request != null ?
-                                     data.training_request.training_program.program_title + ' for ' + data.training_request.company_name  :
+                                     data.training_request.company_name  :
                                      data.reason;
 
                         this.form = data;
