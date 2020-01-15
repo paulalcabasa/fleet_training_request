@@ -155,7 +155,7 @@ class TrainingRequestController extends Controller
 							training program: '. $training_program->program_title .' <br/>
 							on '. Carbon::parse($query->training_date)->format('M d, Y D - h:i A') .'
 							Please click the button to navigate directly to our system.',
-						'redirect_url' => 'http://localhost/fleet_training_request/admin/training_requests',
+						'redirect_url' => 'http://ecommerce5/fleet_training_request/admin/training_requests',
 						'cc'           => null,
 						'attachment'   => null
 					]);
