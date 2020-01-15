@@ -62,9 +62,9 @@ class SuperiorController extends Controller
                         'message'             => null,
                         'cc'                  => null,
                         'attachment'          => null,
-                        'accept_url'          => config('app.pub_url')  . "/customer/confirm_request/".$training_request->training_request_id,
-                        'deny_url'            => config('app.pub_url')  . "/customer/cancellation_request/".$training_request->training_request_id,
-                        'redirect_url'        => config('app.pub_url')  . "/customer/reschedule_request/".$training_request->training_request_id,
+                        'accept_url'          => config('app.pub_url')  . "customer/confirm_request/".$training_request->training_request_id,
+                        'deny_url'            => config('app.pub_url')  . "customer/cancellation_request/".$training_request->training_request_id,
+                        'redirect_url'        => config('app.pub_url')  . "customer/reschedule_request/".$training_request->training_request_id,
                         
 /*                         'accept_url'          => route('customer_confirmation', ['training_request_id' => $training_request->training_request_id]),
                         'deny_url'            => route('customer_cancellation', ['training_request_id' => $training_request->training_request_id]),

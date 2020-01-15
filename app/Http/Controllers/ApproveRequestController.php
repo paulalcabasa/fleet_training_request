@@ -65,8 +65,8 @@ class ApproveRequestController extends Controller
                             'title'               => 'NOTICE OF TRAINING REQUEST',
                             'cc'                  => null,
                             'attachment'          => null,
-                            'accept_url'          => config('app.pub_url')  . "/superior/approve/".$approval_status->approval_status_id,
-                            'deny_url'          => config('app.pub_url')  . "/superior/disapprove/".$approval_status->approval_status_id
+                            'accept_url'          => config('app.pub_url')  . "superior/approve/".$approval_status->approval_status_id,
+                            'deny_url'          => config('app.pub_url')  . "superior/disapprove/".$approval_status->approval_status_id
                         ];
 
                         	
