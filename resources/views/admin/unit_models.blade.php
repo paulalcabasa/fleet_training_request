@@ -26,6 +26,7 @@
 					<thead>
 						<tr>
 							<th class="text-center text-uppercase">Image</th>
+							<th class="text-center text-uppercase">Sequence No</th>
 							<th class="text-center text-uppercase">Model Name</th>
 							<th class="text-center text-uppercase">Description</th>
 							<th class="text-center text-uppercase">&nbsp;</th>
@@ -39,6 +40,7 @@
 								width="70" height="70"
 								alt="">
 							</td>
+							<td class="text-center ">@{{ item.sequence_no }}</td>
 							<td class="text-center text-primary text-bold">@{{ item.model_name }}</td>
 							<td class="text-center">@{{ item.description }}</td>
 							<td class="text-center" width="100">

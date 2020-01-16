@@ -21,6 +21,8 @@ const request = {
       position: '',
       selling_dealer: [],
       unit_model_id: 0,
+      emission_standard_id : '',
+      body_type_id : '',
 
       selling_dealer: [],
       training_date: '',
@@ -97,7 +99,8 @@ const request = {
         position: '',
         selling_dealer: [],
         unit_model_id: 0,
-
+        emission_standard_id: '',
+        body_type_id: '',
         selling_dealer: [],
         training_date: '',
         training_time: '',
@@ -230,6 +233,7 @@ const request = {
           message: 'Your request has been sent. Please wait for our response.',
         });
         commit('RESET_FORM')
+        window.location.reload();
       })
     }
   }

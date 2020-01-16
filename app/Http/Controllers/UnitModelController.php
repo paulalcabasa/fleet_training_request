@@ -26,7 +26,8 @@ class UnitModelController extends Controller
         $this->validate($request, [
 			'model_name' => 'required|string',
 			'description' => 'required|string',
-			'image' => 'required'
+            'image' => 'required',
+            'sequence_no' => 'required'
 		]);
 
         if ($request->get('image')) {
@@ -38,6 +39,7 @@ class UnitModelController extends Controller
         $query = new UnitModel;
 		$query->model_name = $request->model_name;
 		$query->description = $request->description;
+		$query->sequence_no = $request->sequence_no;
 		$query->image = $name;
 		$query->save();
 
@@ -48,12 +50,14 @@ class UnitModelController extends Controller
     {
         $this->validate($request, [
 			'model_name' => 'required|string',
-			'description' => 'required|string'
+            'description' => 'required|string',
+            'sequence_no' => 'required'
 		]);
 
         $query = UnitModel::findOrFail($unit_model_id);
 		$query->model_name = $request->model_name;
         $query->description = $request->description;
+        $query->sequence_no = $request->sequence_no;
 
         if ($request->get('image')) {
             $old_image = $query->image;

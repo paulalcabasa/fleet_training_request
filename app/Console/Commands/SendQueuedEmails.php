@@ -53,7 +53,7 @@ class SendQueuedEmails extends Command
         $bar = $this->output->createProgressBar(count($pending_emails));
 		if ($pending_emails) {
             foreach ($pending_emails as $value) {
-              
+               
                 $training_request = TrainingRequest::where('training_request_id', $value['training_request_id'])
                     ->with([
                         'customer_dealers',
@@ -65,13 +65,13 @@ class SendQueuedEmails extends Command
                         'trainor_designations.person'
                     ])
                     ->first();
-
                 $contact_person    = $training_request['contact_person'];
                 $company_name      = $training_request['company_name'];
                 $participants      = $training_request['customer_participants'];
                 $training_programs = $training_request['training_request_programs'];
                 $venue             = $training_request['training_venue'];
                 $unit_model        = $training_request['unit_model']->model_name;
+               
                 $date              = $training_request['training_date'];
                 $time              = $training_request['training_time'];
                 $trainors          = $training_request['trainor_designations'];

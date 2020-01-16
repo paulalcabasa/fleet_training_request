@@ -150,7 +150,7 @@ class RequestorController extends Controller
 
 				$content = [
 					'type'    => 'success',
-					'message' => 'Your request has been confirmed. We will see you on Training Program. Thank you!'
+					'message' => 'Your request has been confirmed. Thank you!'
 				];
 				return response()->view('public_pages.message', compact('content'));
 			}

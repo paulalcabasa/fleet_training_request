@@ -12,7 +12,7 @@ class UnitModelController extends Controller
 {
     public function index()
     {
-        return response()->json(UnitModel::all());
+        return response()->json(UnitModel::orderBy('sequence_no','asc')->get());
     }
 
     public function show($unit_model_id)

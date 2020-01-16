@@ -33,6 +33,13 @@
                                 @{{ errors.description[0] }}
                             </span>
                         </div>
+                        <div class="form-group">
+                            <label for="description">Sequence</label>
+                            <input type="text" class="form-control" id="sequence_no" v-model="form.sequence_no">
+                            <span v-if="errors.sequence_no" class="text-danger">
+                                @{{ errors.sequence_no[0] }}
+                            </span>
+                        </div>
                         <div class="row">
                             <div class="form-group col-md-4">
                                 <label v-if="isEdit" for="image">Replace Image</label>

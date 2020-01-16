@@ -19,7 +19,9 @@ class TrainingRequest extends Model
         'training_program_id', // Training Program
         'unit_model_id', // Focus of training
         'training_time',
-        'remarks'
+        'remarks',
+        'emission_standard_id',
+        'body_type_id'
     ];
     protected $primaryKey = 'training_request_id';
     public $timestamps = false;
