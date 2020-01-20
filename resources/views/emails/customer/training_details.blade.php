@@ -254,17 +254,23 @@
                                     <td  width="70" style="font-weight:bold;">Time :</td>
                                     <td><?php echo $content['training_request']['time']; ?></td>
                                 </tr>
-
+							
 								<tr>
-                                    <td valign="top" width="70" style="font-weight:bold;">Participants :</td>
-                                    <td valign="top">
-                                        <ol style="list-style:none;padding:0;margin:0;">
-											<?php foreach($content['training_request']['participants'] as $row){ ?>
+									<td valign="top" width="190" style="font-weight:bold;">Participants :</td>
+									<td valign="top">
+										<ol style="list-style:none;padding:0;margin:0;">
+											<?php 
+												$total = 0;
+												foreach($content['training_request']['participants'] as $row){ 
+													$total += $row['quantity'];
+											?>
 												<li><?php echo $row['participant'] . " - " . $row['quantity']; ?></li>
 											<?php } ?>
-                                        </ol>
-                                    </td>
-                                </tr>
+											
+											<li><strong>Total - <?php echo $total; ?></strong></li>
+										</ol> 
+									</td>
+								</tr>
 
                                 <tr>
                                     <td valign="top" width="70" style="font-weight:bold;">IPC trainers / Representatives:</td>
@@ -277,11 +283,20 @@
 									</td>
                                 </tr>
 
-                              
                                	<tr>
                                     <td  width="70" style="font-weight:bold;">Isuzu model to be discussed</td>
                                     <td><?php echo $content['training_request']['unit_model']; ?></td>
                                 </tr>
+																
+								<tr class="<?php echo ($content['training_request']['emission_standard'] == "" ?  "hide" : ""); ?>">
+									<td  width="70" style="font-weight:bold;">Emission Standard :</td>
+									<td><?php echo $content['training_request']['emission_standard']; ?></td>
+								</tr>
+
+								<tr class="<?php echo ($content['training_request']['body_type'] == "" ?  "hide" : ""); ?>">
+									<td  width="70" style="font-weight:bold;">Body Type :</td>
+									<td><?php echo $content['training_request']['body_type']; ?></td>
+								</tr>
 
 								<tr>
                                     <td  width="70" style="font-weight:bold;">Facilities/Equipment to be prepared by Requestor:</td>

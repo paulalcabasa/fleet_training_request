@@ -56,7 +56,7 @@ class TrainingRequestController extends Controller
 				'training_request_programs.training_program',
 				'unit_model',
 				'dealer_details',
-				'approval_statuses'
+				'approval_statuses',
 			])
 			->orderBy('created_at', 'desc')
 			->get()
@@ -72,7 +72,9 @@ class TrainingRequestController extends Controller
 				'customer_participants',
 				'training_request_programs.training_program',
 				'unit_model',
-				'dealer_details'
+				'dealer_details',
+				'body_type',
+				'emission_standard'
 			])
 			->first();
 

@@ -35,6 +35,16 @@ class TrainingRequest extends Model
         return $this->belongsTo('App\UnitModel', 'unit_model_id', 'unit_model_id');
     }
 
+    public function body_type()
+    {
+        return $this->belongsTo('App\BodyType', 'body_type_id', 'body_type_id');
+    }
+
+    public function emission_standard()
+    {
+        return $this->belongsTo('App\EmissionStandard', 'emission_standard_id', 'emission_standard_id');
+    }
+
     public function email()
     {
         return $this->belongsTo('App\Email', 'training_request_id', 'training_request_id');
