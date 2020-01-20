@@ -51,11 +51,13 @@ import TrainingForm from '../components/TrainingForm'
 import Programs from '../components/Programs'
 import IsuzuModels from '../components/IsuzuModels'
 import Submit from '../components/Submit'
+import Consent from '../components/Consent'
 
 export default {
   name: 'home',
   components: {
     RequestorTypeDialog, 
+    Consent,
     DealerForm, 
     CustomerForm, 
     TrainingForm, 
