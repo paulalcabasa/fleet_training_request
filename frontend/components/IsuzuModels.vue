@@ -160,20 +160,23 @@ export default {
     },
 
     fetchEmissionStandards () {
+      var self = this;
       axios.get(`${this.api_url}/emission_standards/get`)
       .then(({data}) => {
         this.emission_standard_types = data;
       })
       .catch((error) => {
-        console.log(error);
+        self.fetchEmissionStandards();
       });
     },
     fetchBodyTypes () {
+      var self = this;
       axios.get(`${this.api_url}/body_types/get`)
       .then(({data}) => {
         this.rear_body_types = data;
       })
       .catch((error) => {
+        self.fetchBodyTypes();
         console.log(error);
       });
     },
