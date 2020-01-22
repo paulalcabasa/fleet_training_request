@@ -133,11 +133,11 @@
 										<label>Isuzu Specific Model</label>
 										<input v-if="data_loaded" type="text" v-model="training_request.unit_model.model_name" class="form-control" readonly>
 									</div>
-									<div class="form-group">
+									<div class="form-group" v-if="training_request.emission_standard">
 										<label>Emission Standard</label>
 										<input v-if="data_loaded" type="text" v-model="training_request.emission_standard.name" class="form-control" readonly>
 									</div>
-									<div class="form-group">
+									<div class="form-group" v-if="training_request.body_type">
 										<label>Body Type</label>
 										<input v-if="data_loaded" type="text" v-model="training_request.body_type.name" class="form-control" readonly>
 									</div>
