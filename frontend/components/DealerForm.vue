@@ -85,6 +85,16 @@
           </v-container>
         </v-form>
         <v-layout justify-end row>
+           <v-btn 
+       
+            @click="back"
+            color="red darken-1" 
+            flat
+            >
+              <v-icon small>fa fa-arrow-circle-left</v-icon>&nbsp;
+              Back
+            </v-btn>
+            <v-spacer></v-spacer>
             <v-btn 
             @click="proceed"
             :disabled="isFormInvalid"
@@ -159,10 +169,10 @@ export default {
   },
   mounted () {
     this.getDealers()
-  /*    this.$store.commit('request/NEXT_PAGE');
      this.$store.commit('request/NEXT_PAGE');
-     this.$store.commit('request/NEXT_PAGE');
-     this.$store.commit('request/NEXT_PAGE'); */
+    this.$store.commit('request/NEXT_PAGE');
+    this.$store.commit('request/NEXT_PAGE');
+    this.$store.commit('request/NEXT_PAGE'); 
   },
   methods: {
     updateForm (field, value) {
@@ -170,6 +180,9 @@ export default {
     },
     proceed () {
       this.$store.commit('request/NEXT_PAGE')
+    },
+    back () {
+      this.$store.commit('request/BACK_PAGE')
     },
     getDealers () {
       axios.get(`${this.api_url}guest/dealers/get`)

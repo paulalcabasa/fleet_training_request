@@ -62,9 +62,30 @@
         </a></li>
 
         <li class="header">VEHICLES</li>
-        <li id="unit_model_tab"><a href="{{ route('unit_models') }}">
-            <i class="fa fa-caret-right"></i>&nbsp; 
-            <span>Unit Models</span>
-        </a></li>
+        <li id="unit_model_tab">
+            <a href="{{ route('unit_models') }}">
+                <i class="fa fa-caret-right"></i>&nbsp; 
+                <span>Unit Models</span>
+            </a>
+        </li>
+        <li id="emission_tab">
+            <a href="{{ route('emission_standards') }}">
+                <i class="fa fa-caret-right"></i>&nbsp; 
+                <span>Emission Standard</span>
+            </a>
+        </li>
+        <li id="body_type_tab">
+            <a href="{{ route('body_types') }}">
+                <i class="fa fa-caret-right"></i>&nbsp; 
+                <span>Body Types</span>
+            </a>
+        </li>
+        <li class="header">Reports</li>
+        <li id="request_summary_tab">
+            <a href="{{ route('request_summary') }}">
+                <i class="fa fa-caret-right"></i>&nbsp; 
+                <span>Request Summary</span>
+            </a>
+        </li>
     </ul>
 </section>

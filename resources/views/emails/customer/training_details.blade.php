@@ -218,7 +218,7 @@
 									<td colspan="2" align="center" style="font-size:14px;font-weight:bold;">TRAINING DETAILS</td>
 								</tr>
                                 <tr>
-                                    <td valign="top" width="70" style="font-weight:bold;">What:</td>
+                                    <td valign="top" width="50" style="font-weight:bold;">What:</td>
                                     <td valign="top">
                                         <ol style="list-style:none;padding:0;margin:0;">
 											<?php
@@ -242,32 +242,38 @@
                                 </tr>
 
                                 <tr>
-                                    <td  width="70" style="font-weight:bold;">When :</td>
+                                    <td  width="50" style="font-weight:bold;">When :</td>
                                     <td><?php echo $content['training_request']['date']; ?></td>
                                 </tr>
 
                                 <tr>
-                                    <td width="70" style="font-weight:bold;">Where :</td>
+                                    <td width="50" style="font-weight:bold;">Where :</td>
                                     <td><?php echo $content['training_request']['venue'];?></td>
                                 </tr>
                                 <tr>
-                                    <td  width="70" style="font-weight:bold;">Time :</td>
+                                    <td  width="50" style="font-weight:bold;">Time :</td>
                                     <td><?php echo $content['training_request']['time']; ?></td>
                                 </tr>
-
+							
 								<tr>
-                                    <td valign="top" width="70" style="font-weight:bold;">Participants :</td>
-                                    <td valign="top">
-                                        <ol style="list-style:none;padding:0;margin:0;">
-											<?php foreach($content['training_request']['participants'] as $row){ ?>
+									<td valign="top" width="50" style="font-weight:bold;">Participants :</td>
+									<td valign="top">
+										<ol style="list-style:none;padding:0;margin:0;">
+											<?php 
+												$total = 0;
+												foreach($content['training_request']['participants'] as $row){ 
+													$total += $row['quantity'];
+											?>
 												<li><?php echo $row['participant'] . " - " . $row['quantity']; ?></li>
 											<?php } ?>
-                                        </ol>
-                                    </td>
-                                </tr>
+											
+											<li><strong>Total - <?php echo $total; ?></strong></li>
+										</ol> 
+									</td>
+								</tr>
 
                                 <tr>
-                                    <td valign="top" width="70" style="font-weight:bold;">IPC trainers / Representatives:</td>
+                                    <td valign="top" width="50" style="font-weight:bold;">IPC trainers / Representatives:</td>
                                     <td valign="top">
 										<ul style="list-style:none;padding:0;margin:0;">
 										<?php foreach($content['training_request']['trainors'] as $row){ ?>
@@ -277,14 +283,23 @@
 									</td>
                                 </tr>
 
-                              
                                	<tr>
-                                    <td  width="70" style="font-weight:bold;">Isuzu model to be discussed</td>
+                                    <td  width="50" style="font-weight:bold;">Isuzu model to be discussed</td>
                                     <td><?php echo $content['training_request']['unit_model']; ?></td>
                                 </tr>
+																
+								<tr class="<?php echo ($content['training_request']['emission_standard'] == "" ?  "hide" : ""); ?>">
+									<td  width="50" style="font-weight:bold;">Emission Standard :</td>
+									<td><?php echo $content['training_request']['emission_standard']; ?></td>
+								</tr>
+
+								<tr class="<?php echo ($content['training_request']['body_type'] == "" ?  "hide" : ""); ?>">
+									<td  width="50" style="font-weight:bold;">Body Type :</td>
+									<td><?php echo $content['training_request']['body_type']; ?></td>
+								</tr>
 
 								<tr>
-                                    <td  width="70" style="font-weight:bold;">Facilities/Equipment to be prepared by Requestor:</td>
+                                    <td  width="50" style="font-weight:bold;">Facilities/Equipment to be prepared by Requestor:</td>
                                     <td>
 										<ul>
 											<li>Venue for lecture (Classroom Type)</li>
@@ -319,13 +334,13 @@
 					</tr>
                     
 					<tr>
-						<td>
+						<td align="center">
 							<table>
 								<tr>
-									<td valign="top" style="font-size:20px; color:red;font-weight:bold;">
-										<img src="<?php echo $message->embed(config('app.pub_url') . '/public/images/warning-logo.png') ?>" alt="image not found" width="30" >
+									<td valign="top" align="center" style="font-size:20px; color:red;font-weight:bold;">
+										<img align="center" src="<?php echo $message->embed(config('app.pub_url') . '/public/images/warning-logo.png') ?>" alt="image not found" width="30" >
 									</td>
-									<td style="font-size:20px;font-weight:bold;color:red;">IMPORTANT REMINDERS</td>
+									
 								</tr>
 							</table>
 						</td>
@@ -333,11 +348,28 @@
 
                     <tr>
                         <td style="padding:1em;border:2px solid #000; background-color:#ccc;color: #343434; font-size: 12px; font-family: 'Work Sans', Calibri, sans-serif; ">
-							<p style="padding:.7em;font-weight:bold;">
-						    In case there will be sudden changes on the above details please report immediately to your Isuzu Dealer or you can text/call us at below contact numbers and look for Ms. Clarissa Manimtim of Training Department.<br/>
-							Landline: 		(049) 541-02-24 local 346 <br/>
-							Cellphone:		(+63) 918-324-1234 or (+63) 927-380-3862
-							</p>
+							<ul style="padding:.7em;font-weight:bold;">
+								<li>Please regularly check the provided email address for any updates on your training request.</li>
+								<li>All information submitted will serve as reference for IPC Training Department. 
+								In case you need to change any information or training details please immediately 
+								contact your Isuzu dealer or you may reach us at this number:
+									<ul>
+										<li>Landline
+											<ul style="list-style:none;">
+												<li>Trunk line: (049) 541-0224 local 346/287</li>
+												<li>Manila line: (02) 757-6070</li>
+											</ul>
+										</li>
+										<li>Cellphone Number
+											<ul style="list-style:none;">
+												<li>Smart: 0918-324-1234</li>
+												<li>Globe: 0927-380-3862</li>
+											</ul>
+										</li>
+									</ul>
+								</li>
+							</ul>
+						
                         </td>
                     </tr>
 

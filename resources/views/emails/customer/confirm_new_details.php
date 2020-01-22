@@ -268,20 +268,45 @@
                                 </tr>
 
 								<tr>
+									<td width="200" style="font-weight:bold;">Training Address :</td>
+									<td><?php echo $content['training_request']['training_address'];?></td>
+								</tr>
+
+
+
+								<tr>
                                     <td valign="top" width="190" style="font-weight:bold;">Participants :</td>
                                     <td valign="top">
                                         <ol style="list-style:none;padding:0;margin:0;">
-											<?php foreach($content['training_request']['participants'] as $row){ ?>
+											<?php 
+												$total = 0;
+												foreach($content['training_request']['participants'] as $row){ 
+													$total += $row['quantity'];
+											?>
 												<li><?php echo $row['participant'] . " - " . $row['quantity']; ?></li>
 											<?php } ?>
+											
+											<li><strong>Total - <?php echo $total; ?></strong></li>
                                         </ol>
-                                    </td>
+										
+									</td>
+									
                                 </tr>
 
 							   <tr>
                                     <td  width="190" style="font-weight:bold;">Isuzu Model :</td>
                                     <td><?php echo $content['training_request']['unit_model']; ?></td>
                                 </tr>
+
+								<tr class="<?php echo ($content['training_request']['emission_standard'] == "" ?  "hide" : ""); ?>">
+									<td  width="190" style="font-weight:bold;">Emission Standard :</td>
+									<td><?php echo $content['training_request']['emission_standard']; ?></td>
+								</tr>
+
+								<tr class="<?php echo ($content['training_request']['body_type'] == "" ?  "hide" : ""); ?>">
+									<td  width="190" style="font-weight:bold;">Body Type :</td>
+									<td><?php echo $content['training_request']['body_type']; ?></td>
+								</tr>
 
 
                                 <tr>
@@ -304,6 +329,11 @@
 										</ul>
 									</td>
                                 </tr>
+
+								<tr>
+									<td  width="190" style="font-weight:bold;">Additional request</td>
+									<td><?php echo $content['training_request']['additional_request']; ?></td>
+								</tr>
 
           
                             </table>	

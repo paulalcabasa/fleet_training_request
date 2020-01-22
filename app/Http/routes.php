@@ -131,6 +131,24 @@ Route::group(['middleware' => ['admin_guard']], function () {
     Route::put('/admin/training_programs/update/{training_program_id}', 'TrainingProgramController@update');
     Route::delete('/admin/training_programs/delete/{training_program_id}', 'TrainingProgramController@delete');
     
+
+    // Reports
+    Route::post('report/xls_report_summary', 'ReportsController@xls_report_summary');
+
+    // Emission Standards
+    Route::get('/admin/emission_standard/get', 'EmissionController@index');
+    Route::get('/admin/emission_standard/get/{emission_standard_id}', 'EmissionController@show');
+    Route::post('/admin/emission_standard/store', 'EmissionController@store');
+    Route::get('/admin/emission_standard/get/{emission_standard_id}', 'EmissionController@show');    
+    Route::put('/admin/emission_standard/update/{emission_standard_id}', 'EmissionController@update');
+
+    // Body Types
+    Route::get('/admin/body_type/get', 'BodyTypeController@index');
+    Route::get('/admin/body_type/get/{emission_standard_id}', 'BodyTypeController@show');
+    Route::post('/admin/body_type/store', 'BodyTypeController@store');
+    Route::get('/admin/body_type/get/{emission_standard_id}', 'BodyTypeController@show');    
+    Route::put('/admin/body_type/update/{emission_standard_id}', 'BodyTypeController@update');
+
     // ============== Views ================ //
     Route::get('admin', function() { return redirect()->route('training_requests'); });
     Route::get('admin/training_requests', function() { return view('admin.training_requests'); })->name('training_requests');
@@ -143,4 +161,9 @@ Route::group(['middleware' => ['admin_guard']], function () {
     Route::get('admin/schedules', function() { return view('admin.schedules'); })->name('schedules');
     Route::get('admin/special_trainings', function() { return view('admin.special_trainings'); })->name('special_trainings');
     Route::get('admin/calendar', function() { return view('admin.calendar'); })->name('calendar');
+    Route::get('report/request_summary', function() { return view('reports.request_summary'); })->name('request_summary');
+    Route::get('admin/emission_standards', function() { return view('admin.emission_standard'); })->name('emission_standards');
+    Route::get('admin/body_types', function() { return view('admin.body_types'); })->name('body_types');
+    
+
 });

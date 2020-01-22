@@ -19,7 +19,9 @@ class TrainingRequest extends Model
         'training_program_id', // Training Program
         'unit_model_id', // Focus of training
         'training_time',
-        'remarks'
+        'remarks',
+        'emission_standard_id',
+        'body_type_id'
     ];
     protected $primaryKey = 'training_request_id';
     public $timestamps = false;
@@ -31,6 +33,16 @@ class TrainingRequest extends Model
     public function unit_model()
     {
         return $this->belongsTo('App\UnitModel', 'unit_model_id', 'unit_model_id');
+    }
+
+    public function body_type()
+    {
+        return $this->belongsTo('App\BodyType', 'body_type_id', 'body_type_id');
+    }
+
+    public function emission_standard()
+    {
+        return $this->belongsTo('App\EmissionStandard', 'emission_standard_id', 'emission_standard_id');
     }
 
     public function email()

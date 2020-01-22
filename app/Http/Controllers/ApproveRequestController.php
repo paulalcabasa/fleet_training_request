@@ -51,7 +51,6 @@ class ApproveRequestController extends Controller
                         $approval_status->training_request_id = $training_request->training_request_id;
                         $approval_status->person_id = $value->person_id; // users person id as approver id
                         $approval_status->save();
-
                      
                         $person = Person::findOrFail($value->person_id);
                         
@@ -67,10 +66,7 @@ class ApproveRequestController extends Controller
                             'attachment'          => null,
                             'accept_url'          => config('app.pub_url')  . "superior/approve/".$approval_status->approval_status_id,
                             'deny_url'          => config('app.pub_url')  . "superior/disapprove/".$approval_status->approval_status_id
-                        ];
-
-                        	
-        
+                        ];        
         
                         $batch_mails->save_to_batch($params);
                     }  

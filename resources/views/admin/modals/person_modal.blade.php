@@ -13,7 +13,7 @@
                         <div class="form-group">
                             <label for="first_name">Type</label>
                             <select name="person_type" id="person_type" class="form-control" v-model="form.person_type">
-                                <option value="trainor">Trainor</option>
+                                <option value="trainer">Trainer</option>
                                 <option value="approver">Approver</option>
                                 <option value="dealer_sales">Dealer Sales</option>
                             </select>

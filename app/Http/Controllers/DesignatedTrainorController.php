@@ -18,7 +18,7 @@ class DesignatedTrainorController extends Controller
             }])
             ->where([
                 ['status', 'active'],
-                ['person_type', 'trainor'],
+                ['person_type', 'trainer'],
             ])
             ->get();
     }

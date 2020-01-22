@@ -83,7 +83,7 @@
               </div>
               <div class="form-group">
                   <v-text-field
-                  label="Quantity"
+                  label="Target headcount"
                   type="number"
                   v-model.number="participant.quantity"
                   outline

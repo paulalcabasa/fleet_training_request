@@ -27,7 +27,7 @@
                     </div>
                     <div class="row">
                         <div class="col-md-12">
-                            <label for="feature">Features</label>
+                            <label for="feature">Topics</label>
                             <input type="text" class="form-control" id="features" v-model="form.feature" v-on:keyup.enter.prevent="storeFeature">
                         </div>
                     </div>

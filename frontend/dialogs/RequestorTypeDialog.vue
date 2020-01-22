@@ -11,9 +11,8 @@
           primary-title
           style="color: #444444"
         >
-          Please select which type <br/>of Requestor you are?
+          Please select the type of requestor
         </v-card-title>
-
         <v-card-text>
           <v-container>
             <v-layout 

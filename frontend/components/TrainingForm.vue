@@ -130,10 +130,10 @@
             <v-layout justify-center row wrap>
               <v-flex xs8 sm8 md8 lg5>
                 <v-text-field
-                label="Remarks"
-                name="Remarks"
+                label="Additional Request"
+                name="Additional Request"
                 v-model="remarks"
-                :error-messages="errors.first('Remarks')"
+                :error-messages="errors.first('Additional Request')"
                 outline
                 ></v-text-field>
               </v-flex>
