@@ -127,7 +127,7 @@ const request = {
     },
     SET_DEALER_STATE (state) {
       state.form_steppers = [
-        { step: 1, step_name: 'Consent', component: 'Consent'},
+        {step: 1, step_name: 'Consent', component: 'Consent'},
         {step: 2, step_name: 'Dealer', component: 'DealerForm'},
         {step: 3, step_name: 'Customer', component: 'CustomerForm'},
         {step: 4, step_name: 'Training', component: 'TrainingForm'},
@@ -138,11 +138,12 @@ const request = {
     },
     SET_CUSTOMER_STATE (state) {
       state.form_steppers = [
-        { step:1, step_name: 'Consent', component: 'Consent' },
-        {step: 2, step_name: 'Training', component: 'TrainingForm'},
-        {step: 3, step_name: 'Programs', component: 'Programs'},
-        {step: 4, step_name: 'Isuzu Models', component: 'IsuzuModels'},
-        {step: 5, step_name: 'Submit', component: 'Submit'}
+        {step: 1, step_name: 'Consent', component: 'Consent' },
+        {step: 2, step_name: 'Customer', component: 'CustomerForm' },
+        {step: 3, step_name: 'Training', component: 'TrainingForm'},
+        {step: 4, step_name: 'Programs', component: 'Programs'},
+        {step: 5, step_name: 'Isuzu Models', component: 'IsuzuModels'},
+        {step: 6, step_name: 'Submit', component: 'Submit'}
       ]
     },
     ADD_FORM_DATA (state, payload) {
