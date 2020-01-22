@@ -161,22 +161,23 @@ export default {
 
     fetchEmissionStandards () {
       var self = this;
-      axios.get(`${this.api_url}/emission_standards/get`)
+      axios.get(`${this.api_url}emission_standards/get`)
       .then(({data}) => {
         this.emission_standard_types = data;
       })
       .catch((error) => {
-        self.fetchEmissionStandards();
+       // self.fetchEmissionStandards();
+         console.log(error);
       });
     },
     fetchBodyTypes () {
       var self = this;
-      axios.get(`${this.api_url}/body_types/get`)
+      axios.get(`${this.api_url}body_types/get`)
       .then(({data}) => {
         this.rear_body_types = data;
       })
       .catch((error) => {
-        self.fetchBodyTypes();
+        //self.fetchBodyTypes();
         console.log(error);
       });
     },
