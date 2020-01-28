@@ -11,21 +11,31 @@
         <v-card-text>
           <v-alert
           :value="true"
-          color="red lighten-1"
+          color="blue lighten-1"
           >
             <p><i class="fa fa-bell"></i>&nbsp; Important Reminders</p>
-            <ol>
-              <li>All data provided will serve as our guide for your training request.</li>
-              <li>In case you have correction with the information you provided, changes on training venue, please contact your Isuzu dealer immediately.</li>
-              <li>
-                Please regulary check your registered email address for the updates of your training request. <br>
-              </li>
-            </ol>
-            <br>
-            <p>
-              In case you need an update on your request you may contact <strong>Isuzu Training Department</strong><br>
-              at <strong>(049) 541-0224 local 346</strong> , Monday to Friday, 7:30 A.M - 5:45 P.M and look for <strong>Ms. Clarissa Manimtim</strong>.
-            </p>
+            <ul style="font-weight:normal;">
+								<li>Please regularly check the provided email address for any updates on your training request.</li>
+								<li>All information submitted will serve as reference for IPC Training Department. 
+								In case you need to change any information or training details please immediately 
+								contact your Isuzu dealer or you may reach us at this number:
+									<ul>
+										<li>Landline
+											<ul style="list-style:none;">
+												<li>Trunk line: (049) 541-0224 local 346/287</li>
+												<li>Manila line: (02) 757-6070</li>
+											</ul>
+										</li>
+										<li>Cellphone Number
+											<ul style="list-style:none;">
+												<li>Smart: 0918-324-1234</li>
+												<li>Globe: 0927-380-3862</li>
+											</ul>
+										</li>
+									</ul>
+                  <br/>
+								</li>
+							</ul>
             <v-btn
             @click="changeButtonState"
             :color="button_status.color"
