@@ -22,7 +22,7 @@
                 <v-card-title primary-title>
                   <div class="card-title">
                     <h3 class="headline mb-0">{{ item.program_title }}</h3>
-                    <div style="min-height: 50px;">{{ item.description }}</div>
+                    <div style="min-height: 50px;" v-html="item.description"></div>
                   </div>
                 </v-card-title>
 

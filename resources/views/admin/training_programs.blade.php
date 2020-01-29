@@ -2,6 +2,7 @@
 
 @push('styles')
 	<link rel="stylesheet" href="{{ url('public/libraries/adminlte/dataTables.bootstrap.min.css') }}">
+	<link rel="stylesheet" href="{{ url('public/libraries/summernote-master/dist/summernote.min.css') }}">
 	<link href="https://fonts.googleapis.com/css?family=Raleway:300,400,500,700" rel="stylesheet" type="text/css">
 	<link rel="stylesheet" href="{{ url('public/libraries/css/viewer.min.css') }}">
 	<style>
@@ -63,7 +64,7 @@
 										</button>
 									</div>
 								</div>
-								<small style="color: #9C9D9E">@{{ item.description }}</small>
+								<small style="color: #9C9D9E" v-html="item.description"></small>
 							</div>
 							<ul class="list-group list-group-flush">
 								<li v-for="(item, index) in item.program_features"
@@ -85,8 +86,10 @@
 @push('scripts')
 	<script src="{{ url('public/libraries/adminlte/jquery.dataTables.min.js') }}"></script>
 	<script src="{{ url('public/libraries/adminlte/dataTables.bootstrap.min.js') }}"></script>
+
 	<script src="{{ url('public/libraries/js/viewer.min.js') }}"></script>
 	<script>
+		
 		new Vue({
 			el: '#app',
 			data() {
@@ -106,6 +109,14 @@
 			created() {
 				this.getItems();
 			},
+			mounted(){
+				var self = this;
+				$('#training_program_modal').on('shown.bs.modal', function() {
+					$("#description").summernote().on("summernote.change", function (e) {   // callback as jquery custom event 
+						self.form.description = $(this).val();
+					});
+				});
+			},	
 			methods: {
 				dataTable() {
 					setTimeout(() => {
