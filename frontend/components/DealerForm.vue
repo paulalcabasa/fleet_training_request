@@ -169,11 +169,11 @@ export default {
   },
   mounted () {
     this.getDealers()
-    this.$store.commit('request/NEXT_PAGE');
+  /*   this.$store.commit('request/NEXT_PAGE');
     this.$store.commit('request/NEXT_PAGE');
     this.$store.commit('request/NEXT_PAGE');
     this.$store.commit('request/NEXT_PAGE'); 
-/*     this.$store.commit('request/NEXT_PAGE');  
+    this.$store.commit('request/NEXT_PAGE');  
     this.$store.commit('request/NEXT_PAGE');   */
   },
   methods: {
