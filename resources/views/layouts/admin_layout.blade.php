@@ -62,6 +62,7 @@
 	<script src="{{ url('public/libraries/js/moment.js') }}"></script>
 	<script src="{{ url('public/libraries/js/toastr.min.js') }}"></script>
 	<script src="{{ url('public/js/toastr.config.js') }}"></script>
+	<script src="{{ url('public/libraries/summernote-master/dist/summernote.min.js') }}"></script>
 	<script>
         Vue.mixin({
             data() {
