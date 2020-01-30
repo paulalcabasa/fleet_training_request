@@ -112,9 +112,14 @@
 			mounted(){
 				var self = this;
 				$('#training_program_modal').on('shown.bs.modal', function() {
+					$("#description").val(self.form.description);
 					$("#description").summernote().on("summernote.change", function (e) {   // callback as jquery custom event 
 						self.form.description = $(this).val();
 					});
+				});
+
+				$('#training_program_modal').on('hidden.bs.modal', function() {
+					window.location.reload();
 				});
 			},	
 			methods: {
@@ -141,6 +146,7 @@
 					.then(({data}) => {
 						this.form = data;
 						this.features = data.program_features;
+					//	$('#description').eq(1).summernote('destroy');
 					})
 					.catch((error) => {
 						console.log(error.response);
