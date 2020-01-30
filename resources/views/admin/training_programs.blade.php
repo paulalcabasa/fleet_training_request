@@ -112,14 +112,11 @@
 			mounted(){
 				var self = this;
 				$('#training_program_modal').on('shown.bs.modal', function() {
-					$("#description").val(self.form.description);
+					$("#description").summernote('destroy');
 					$("#description").summernote().on("summernote.change", function (e) {   // callback as jquery custom event 
 						self.form.description = $(this).val();
 					});
-				});
-
-				$('#training_program_modal').on('hidden.bs.modal', function() {
-					window.location.reload();
+					$('#description').summernote('code', self.form.description);
 				});
 			},	
 			methods: {
