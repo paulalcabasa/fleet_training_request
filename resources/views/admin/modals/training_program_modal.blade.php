@@ -19,8 +19,9 @@
                     </div>
                     <div class="form-group">
                         <label for="description">Description</label>
-                        <textarea class="form-control" name="description" id="description" cols="20" rows="1" v-model="form.description"></textarea>
-
+                       <!--  <textarea class="form-control" name="description" id="description" cols="20" rows="1" v-model="form.description"></textarea>
+ -->
+                        <ckeditor :editor="editor" v-model="form.description" :config="editorConfig"></ckeditor>
                         <span v-if="errors.description" class="text-danger">
                             @{{ errors.description[0] }}
                         </span>
