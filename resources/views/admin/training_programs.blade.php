@@ -4,6 +4,7 @@
 	<link rel="stylesheet" href="{{ url('public/libraries/adminlte/dataTables.bootstrap.min.css') }}">
 	<link rel="stylesheet" href="{{ url('public/libraries/summernote-master/dist/summernote.min.css') }}">
 	<link href="https://fonts.googleapis.com/css?family=Raleway:300,400,500,700" rel="stylesheet" type="text/css">
+
 	<link rel="stylesheet" href="{{ url('public/libraries/css/viewer.min.css') }}">
 	<style>
 		.raleway {
@@ -76,6 +77,7 @@
 			</div>
 			<div class="box-footer"></div>
 		</div>
+		 
 	</section>
 
 	@include('admin.modals.training_program_modal')
@@ -86,10 +88,13 @@
 @push('scripts')
 	<script src="{{ url('public/libraries/adminlte/jquery.dataTables.min.js') }}"></script>
 	<script src="{{ url('public/libraries/adminlte/dataTables.bootstrap.min.js') }}"></script>
-
+	<script src="../node_modules/@ckeditor/ckeditor5-build-classic/build/ckeditor.js"></script>
+	<script src="../node_modules/@ckeditor/ckeditor5-vue/dist/ckeditor.js"></script>
 	<script src="{{ url('public/libraries/js/viewer.min.js') }}"></script>
 	<script>
 		
+		Vue.use( CKEditor );
+
 		new Vue({
 			el: '#app',
 			data() {
@@ -104,6 +109,11 @@
 					training_program_id: 0,
 					image: '',
 					images: [],
+					editor: ClassicEditor,
+					editorData: '<p>Content of the editor.</p>',
+					editorConfig: {
+						// The configuration of the editor.
+					}
 				}
 			},
 			created() {
@@ -111,13 +121,13 @@
 			},
 			mounted(){
 				var self = this;
-				$('#training_program_modal').on('shown.bs.modal', function() {
+				/* $('#training_program_modal').on('shown.bs.modal', function() {
 					$("#description").summernote('destroy');
 					$("#description").summernote().on("summernote.change", function (e) {   // callback as jquery custom event 
 						self.form.description = $(this).val();
 					});
 					$('#description').summernote('code', self.form.description);
-				});
+				}); */
 			},	
 			methods: {
 				dataTable() {
