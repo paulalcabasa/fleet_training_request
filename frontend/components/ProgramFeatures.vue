@@ -9,7 +9,7 @@
       class="headline grey lighten-2"
       primary-title
       >
-        Program Features
+        Topic Outline
       </v-card-title>
 
       <v-card-text>
