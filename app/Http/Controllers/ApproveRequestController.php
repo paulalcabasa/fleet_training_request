@@ -44,7 +44,10 @@ class ApproveRequestController extends Controller
                     $query->save();
 
                    // $approvers = Approver::all();
-                    $approvers = DB::table('persons')->where('person_type','approver')->get();
+                    $approvers = DB::table('persons')->where([
+                        ['person_type','approver'],
+                        ['status','active'],
+                    ])->get();
                   
                     foreach ($approvers as $value) {
                         $approval_status = new ApprovalStatus;
