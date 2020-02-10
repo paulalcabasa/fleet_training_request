@@ -77,11 +77,11 @@
               </v-flex>
               <v-flex xs6 sm4>
                 <v-text-field
-                label="Contact Number"
-                name="Contact Number"
+                label="Mobile Number"
+                name="Mobile Number"
                 v-model.number="contact_number"
                 v-validate="'required|max:10|min:10|integer'"
-                :error-messages="errors.first('Contact Number')"
+                :error-messages="errors.first('Mobile Number')"
                 type="number"
                 outline
                 required
