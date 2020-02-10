@@ -70,7 +70,7 @@
 
               <v-flex xs12 sm3>
                 <v-text-field
-                label="Contact Number"
+                label="Mobile Number"
                 name="Contact"
                 v-model.number="contact"
                 v-validate="'required|max:10|min:10|integer'"
