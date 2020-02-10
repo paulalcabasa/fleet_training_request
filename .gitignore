@@ -3,6 +3,13 @@
 /public/storage
 /public/images/photo_gallery
 /public/images/unit_models
+/public/fonts/
 Homestead.yaml
 Homestead.json
 .env
+/public/js/app.js
+/public/js/app.js.map
+/public/js/admin.js
+/public/js/client.js
+/public/mix-manifest.json
+composer.lock
