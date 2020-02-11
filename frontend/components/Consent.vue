@@ -22,19 +22,20 @@
           </v-container>
         </v-form>
 
-        <v-layout justify-end row>
+        <v-layout justify-center row>
+         
             <v-btn 
             @click="agree"
        
-            :color="button_status.color"
+            color="success"
         
-            flat
+            large
             >
-              <i :class="`fa fa-${button_status.icon}`"></i>&nbsp;
+              <i :class="`fa fa-check`"></i>&nbsp;
               Agree
             </v-btn>
-            <v-spacer></v-spacer>
-            <v-btn 
+           
+            <!-- <v-btn 
             @click="proceed"
             :disabled="isAgree"
             color="red darken-1" 
@@ -42,7 +43,7 @@
             >
               Proceed &nbsp;
               <v-icon small>fa fa-arrow-circle-right</v-icon>
-            </v-btn>
+            </v-btn> -->
         </v-layout>
       </v-card>
     </v-flex>
@@ -75,7 +76,8 @@ export default {
       this.$store.commit('request/NEXT_PAGE')
     },
     agree () {
-        this.isAgree = !this.isAgree;
+        this.$store.commit('request/NEXT_PAGE')
+        /* this.isAgree = !this.isAgree;
 
         if(!this.isAgree){
             this.button_status = Object.assign({}, this.button_status, {
@@ -83,13 +85,14 @@ export default {
                 icon: 'check'
                 
             });
+            this.$store.commit('request/NEXT_PAGE')
         }
         else {
             this.button_status = Object.assign({}, this.button_status, {
                 color: '',
                 icon: 'question-circle'
             });
-        }
+        } */
         
     }
   }
