@@ -72,7 +72,7 @@
                 v-validate="'required|email'"
                 :error-messages="errors.first('Email')"
                 outline
-                hint="Note: Confirmation and other details will be send to this email address"
+                hint="Note: Confirmation and other details will be sent to this email address"
                 required
                 ></v-text-field>
               </v-flex>
