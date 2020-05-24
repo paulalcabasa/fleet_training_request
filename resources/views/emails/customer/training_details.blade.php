@@ -302,9 +302,12 @@
                                     <td  width="50" style="font-weight:bold;">Facilities/Equipment to be prepared by Requestor:</td>
                                     <td>
 										<ul>
-											<li>Venue for lecture (Classroom Type)</li>
-											<li>Audio speaker for video presentation</li>
-											<li>Isuzu truck for practical and demonstration activity (truck model)</li>
+											<li>Internet connection, at least 3mbps</li>
+											<li>Video conferencing application (ZOOM)</li>
+											<li>Laptop or desktop with camera)</li>
+											<li>Projector and speaker, for better audio and visual</li>
+											<li>Venue for the video conference (in compliance with the government safety protocol on social distancing, maximum of five (5) person per session is recommended)</li>
+											<li>Pen and paper per participant for written activity and examination</li>
 										</ul>
 									</td>
                                 </tr>
@@ -316,9 +319,14 @@
 								<tr>
                                     <td colspan="2">
 										<ul>
-											<li>Participants must come at least 30 minutes before training for registration.</li>
-											<li>Participants are highly advised to wear company prescribed uniform. If none, pants and shirts with sleeves and close shoes may do. Slippers, short pants and sleeveless shirts are highly discouraged.</li>
-											<li>IPC representatives will arrive at the venue 1hr before the training.</li>
+											<li>Participants must come at least 30 minutes before video conferencing for registration and audio-visual connectivity check.</li>
+											<li>Please also take note of the following government safety protocols:
+												<ol>
+													<li>Keep 1 – 2 meters distance per participant and a maximum of 5 participant per session,  as per government regulation.</li>
+													<li>Wear facemask</li>
+													<li>Disinfect hands before entering and leaving training venue</li>
+												</ol>
+											</li>
 										</ul>
 									</td>
                                 </tr>

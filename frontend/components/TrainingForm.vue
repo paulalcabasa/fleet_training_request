@@ -186,7 +186,12 @@ export default {
       // date: new Date().toISOString().substr(0, 10),
       modal: false,
       reactive: true,
-      training_venues: ['Fleet Customer Premises', 'Isuzu Training Center', 'Dealer Premises'], // Isuzu Training Center
+      training_venues: [
+     //   'Fleet Customer Premises', 
+     //   'Isuzu Training Center', 
+     //   'Dealer Premises',
+        'Online (Video Conference)'
+      ], // Isuzu Training Center
       training_times: [
         { label : 'AM', value: 'AM' },
         { label : 'PM', value: 'PM' },

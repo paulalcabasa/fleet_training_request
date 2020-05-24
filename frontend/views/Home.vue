@@ -1,7 +1,8 @@
 <template>
   <div>
-    <RequestorTypeDialog v-if="false"></RequestorTypeDialog>
-    <Covid19 v-if="true"></Covid19>
+  
+    <RequestorTypeDialog></RequestorTypeDialog>
+
     <v-stepper 
     v-if="this.$store.state.request.form.requestorType" 
     :value="current_page" 
@@ -46,7 +47,7 @@
 <script>
 import { mapGetters, mapState } from 'vuex'
 import RequestorTypeDialog from '../dialogs/RequestorTypeDialog'
-import Covid19 from '../dialogs/Covid19'
+//import Covid19 from '../dialogs/Covid19'
 import DealerForm from '../components/DealerForm'
 import CustomerForm from '../components/CustomerForm'
 import TrainingForm from '../components/TrainingForm'
@@ -54,12 +55,14 @@ import Programs from '../components/Programs'
 import IsuzuModels from '../components/IsuzuModels'
 import Submit from '../components/Submit'
 import Consent from '../components/Consent'
+import Announcement from '../dialogs/Announcement'
 
 export default {
   name: 'home',
   components: {
     RequestorTypeDialog, 
-    Covid19,
+    Announcement,
+//    Covid19,
     Consent,
     DealerForm, 
     CustomerForm, 

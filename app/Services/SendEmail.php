@@ -10,7 +10,7 @@ class SendEmail
     public function __construct(FetchMailConfig $fetch_mail_config)
     {
         $mail_credentials = $fetch_mail_config->get_mail_credentials('Fleet Training Request');
-
+       // print_r($mail_credentials);
         if ($mail_credentials) {
             config([
                 'mail.username' => $mail_credentials->email,

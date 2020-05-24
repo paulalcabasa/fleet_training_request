@@ -2,14 +2,41 @@
   <div>
     <v-dialog
       :value="hasNotPickedYet"
-      width="500"
+      width="700"
       persistent
     >
+
+       <v-card>
+       
+        <v-card-text style="padding-top: 0;">
+          <v-container>
+            <v-layout>
+              <v-flex>
+                Due to the COVID19 pandemic, all trainings will be conducted online (video conference). 
+              </v-flex>
+            </v-layout>
+            <v-layout>
+              <v-flex>
+                <Br/>
+                    <p>Note: The following will be used and is requested to be prepared for the online training: </p>
+                    <ul>
+                        <li>Internet connection, at least 3mbps</li>
+                        <li>Video conferencing application (ZOOM)</li>
+                        <li>Laptop or desktop with camera</li>
+                        <li>Projector and speaker video conference projection</li>
+                        <li>Venue for the video conference (In compliance with the government safety protocol on social distancing, maximum of five (5) person per session is recommended)</li>
+                    </ul>
+              </v-flex>
+            </v-layout>
+          </v-container>
+        </v-card-text>
+      </v-card>
+       <v-divider></v-divider>
       <v-card>
         <v-card-title
-          class="headline"
           primary-title
-          style="color: #444444"
+          style="color: #444444;font-size:12pt;font-weight:bold;"
+
         >
           Please select the type of requestor
         </v-card-title>
