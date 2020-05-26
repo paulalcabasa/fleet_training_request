@@ -240,12 +240,14 @@ export default {
         return this.$store.state.request.form.training_venue
       },
       set (val) {
-        if (val === 'Isuzu Training Center') {
+        this.training_address = '114 Technology Avenue Laguna Technopark Binan Laguna'
+  
+      /*   if (val === 'Isuzu Training Center') {
           this.training_address = 'Isuzu Philippines Corporation 114 Technology Avenue Phase II, Laguna Technopark Biñan Laguna 4024 Philippines'
         }
         else {
           this.training_address = ''
-        }
+        } */
 
         this.$store.commit('request/UPDATE_FORM', {key:'training_venue',value:val})
       }
