@@ -2,7 +2,7 @@
   <div>
     <v-dialog
       :value="hasNotPickedYet"
-      width="700"
+      width="800"
       persistent
     >
 
@@ -12,13 +12,13 @@
           <v-container>
             <v-layout>
               <v-flex>
-                Due to the COVID19 pandemic, all trainings will be conducted online (video conference). 
+                In consideration of the safety protocols for the COVID 19 pandemic, please be advised that all trainings will be conducted online.
               </v-flex>
             </v-layout>
             <v-layout>
               <v-flex>
                 <Br/>
-                    <p>Note: The following will be used and is requested to be prepared for the online training: </p>
+                    <p>The following will be used and is requested to be prepared for the online training: </p>
                     <ul>
                         <li>Internet connection, at least 3mbps</li>
                         <li>Video conferencing application (ZOOM)</li>
