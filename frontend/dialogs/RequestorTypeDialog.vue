@@ -24,7 +24,7 @@
                         <li>Video conferencing application (ZOOM)</li>
                         <li>Laptop or desktop with camera</li>
                         <li>Projector and speaker video conference projection</li>
-                        <li>Venue for the video conference (In compliance with the government safety protocol on social distancing, maximum of five (5) person per session is recommended)</li>
+                        <li>Training  / video conferencing venue (compliance to government guidelines on social distancing is highly encouraged)</li>
                     </ul>
               </v-flex>
             </v-layout>
