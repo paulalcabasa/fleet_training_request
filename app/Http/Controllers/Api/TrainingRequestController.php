@@ -215,6 +215,7 @@ class TrainingRequestController extends Controller
 						'mail_template'       => 'ipc.new_request',
 						'cc'                  => null,
 						'attachment'          => null,
+						'email_category_id'   => 10,
 						'training_request_id' => $training_request_id
 					]);
 				}

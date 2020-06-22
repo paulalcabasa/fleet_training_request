@@ -68,6 +68,8 @@ class SendQueuedEmails extends Command
                     ])
                     ->first();
                 
+                
+                
                 $contact_person     = $training_request['contact_person'];
                 $company_name       = $training_request['company_name'];
                 $participants       = $training_request['customer_participants'];
@@ -109,12 +111,12 @@ class SendQueuedEmails extends Command
                 $bar->setProgressCharacter('|');
 				$mail = $this->mail->send([
 					'mail_template' => $value['mail_template'],
-					'subject'           => $value['subject'],
-					'sender'            => config('mail.from.address'),
-					'recipient'         => $value['recipient'],
-					'cc'                => $value['cc'],
-					'attachment'        => $value['attachment'],
-					'content'           => [
+					'subject'       => $value['subject'],
+					'sender'        => config('mail.from.address'),
+					'recipient'     => $value['recipient'],
+					'cc'            => $value['cc'],
+					'attachment'    => $value['attachment'],
+					'content'       => [
 						'title'        => $value['title'],
 						'message'      => $value['message'],
 						'accept_url'   => $value['accept_url'],
