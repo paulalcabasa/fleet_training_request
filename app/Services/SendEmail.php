@@ -40,7 +40,7 @@ class SendEmail
 
         return Mail::send('emails.' . $data['mail_template'], ['content' => $data['content']], function ($mail) use ($data) {
             $mail->from($data['sender'], 'Fleet Training Request System');
-            $mail->to($data['recipient'])->subject($data['subject']);
+            $mail->to($data['recipient'])->subject("System notification : " . $data['subject']);
             
             if (isset($data['cc'])) $mail->cc($data['cc']);
             if (isset($data['attachment'])) $mail->attach($data['attachment']);
