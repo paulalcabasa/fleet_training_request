@@ -158,14 +158,6 @@
 
                     <!-- Menu Footer-->
                     <li class="user-footer">
-                        <div class="pull-left">
-                            <a href="http://ecommerce5/ipc_central/main_home.php" 
-                            class="btn btn-default btn-sm btn-flat"
-                            >
-                            <i class="fa fa-home"></i>&nbsp;
-                            IPC Home
-                            </a>
-                        </div>
                         <div class="pull-right">
                             <div class="pull-right">
                                 <a href="{{ url('admin/logout') }}" 

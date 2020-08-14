@@ -70,11 +70,11 @@ return [
 
         'training' => [
             'driver' => 'mysql',
-            'host' => env('DB_HOST', 'localhost'),
-            'port' => env('DB_PORT', '3306'),
-            'database' => env('DB_DATABASE', 'training'),
-            'username' => env('DB_USERNAME', 'root'),
-            'password' => env('DB_PASSWORD', 'latropcpi'),
+            'host' => 'ecommerce4',
+            'port' => '3306',
+            'database' => 'training',
+            'username' => 'root',
+            'password' =>  'latropcpi',
             'charset' => 'utf8',
             'collation' => 'utf8_unicode_ci',
             'prefix' => '',

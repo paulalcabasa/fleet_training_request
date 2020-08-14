@@ -114,7 +114,8 @@ class SendQueuedEmails extends Command
 					'subject'       => $value['subject'],
 					'sender'        => config('mail.from.address'),
 					'recipient'     => $value['recipient'],
-					'cc'            => $value['cc'],
+                    'cc'            => $value['cc'],
+                    'bcc'           => 'paul-alcabasa@isuzuphil.com',
 					'attachment'    => $value['attachment'],
 					'content'       => [
 						'title'        => $value['title'],

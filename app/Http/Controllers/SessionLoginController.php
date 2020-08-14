@@ -33,7 +33,7 @@ class SessionLoginController extends Controller
             ])
             ->exists();
 
-        if (!$user_access) return redirect()->away('http://ecommerce5/ipc_central/main_home.php');
+        if (!$user_access) return redirect()->away('http://portal.isuzuphil.com/ipc_central/main_home.php');
 
         session($credentials);
 
@@ -49,13 +49,13 @@ class SessionLoginController extends Controller
             return redirect()->route('training_requests');
         }
         else {
-            return redirect()->away('http://ecommerce5/ipc_central/main_home.php');
+            return redirect()->away('http://portal.isuzuphil.com/ipc_central/main_home.php');
         }
     }
 
     public function logout()
     {
         Session::flush();
-        return redirect()->away('http://ecommerce5/ipc_central/php_processors/proc_logout.php');
+        return redirect()->away('http://portal.isuzuphil.com/ipc_central/php_processors/proc_logout.php');
     }
 }
