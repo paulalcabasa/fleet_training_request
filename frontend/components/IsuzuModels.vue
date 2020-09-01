@@ -132,7 +132,7 @@ export default {
   },
   mounted () {
     this.fetchEmissionStandards();
-    this.fetchBodyTypes();
+    
   },
   methods: {
     hover (index) {
@@ -142,6 +142,7 @@ export default {
       document.querySelector('#item-' + index).classList.remove('animated', 'pulse', 'faster')
     },
     unitModelPicked (field, value) {
+      this.fetchBodyTypes(value);
       this.$store.commit('request/UPDATE_FORM', {key:field,value:value})
     },
     displayImages () {
@@ -170,9 +171,9 @@ export default {
          console.log(error);
       });
     },
-    fetchBodyTypes () {
+    fetchBodyTypes (unit_model_id) {
       var self = this;
-      axios.get(`${this.api_url}body_types/get`)
+      axios.get(`${this.api_url}body_types/get/${unit_model_id}`)
       .then(({data}) => {
         this.rear_body_types = data;
       })

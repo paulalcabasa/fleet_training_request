@@ -12,7 +12,11 @@ class BodyTypeController extends Controller
     
     public function index()
     {
-        return response()->json(BodyType::all());
+        return response()->json(
+            BodyType::with('unit_model')
+            ->get()
+        );
+
     }
 
     public function show($body_type_id)
@@ -24,12 +28,14 @@ class BodyTypeController extends Controller
     {
         $this->validate($request, [
 			'name' => 'required|string',
-            'status' => 'required'
+            'status' => 'required',
+            'unit_model_id' => 'required'
         ]);
         
-        $query = new BodyType;
-		$query->name = $request->name;
-	    $query->status = $request->status;
+        $query                = new BodyType;
+        $query->name          = $request->name;
+        $query->status        = $request->status;
+        $query->unit_model_id = $request->unit_model_id;
 		$query->save();
 
 		return response()->json($query);
@@ -38,12 +44,14 @@ class BodyTypeController extends Controller
     public function update(Request $request, $body_type_id) {
         $this->validate($request, [
 			'name' => 'required|string',
-            'status' => 'required'
+            'status' => 'required',
+            'unit_model_id' => 'required'
         ]);
 
         $query = BodyType::findOrFail($body_type_id);
 		$query->name = $request->name;
 	    $query->status = $request->status;
+	    $query->unit_model_id = $request->unit_model_id;
 		$query->save();
 
 		return response()->json($query);
