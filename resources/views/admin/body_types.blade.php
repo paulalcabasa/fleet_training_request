@@ -27,6 +27,7 @@
 						<tr>
 							<th class="text-center text-uppercase">Name</th>
 							<th class="text-center text-uppercase">Status</th>
+							<th class="text-center text-uppercase">Unit Model</th>
 							<th class="text-center text-uppercase">&nbsp;</th>
 						</tr>
 					</thead>
@@ -34,6 +35,7 @@
 						<tr v-for="(item, index) in items">
 							<td class="text-center ">@{{ item.name }}</td>
 							<td class="text-center text-primary text-bold">@{{ item.status }}</td>
+							<td class="text-center ">@{{ item.unit_model != null ? item.unit_model.model_name : ''  }}</td>
                             <td>
 								<a href="#" v-on:click.prevent="editBodyType(item.body_type_id, index)" style="margin-right:1em;">
 									<i class="fa fa-pencil text-primary"></i>
@@ -76,6 +78,16 @@
                                     @{{ errors.status[0] }}
                                 </span>
                             </div>
+							<div class="form-group">
+                                <label for="description">Unit Model</label>
+                                <select name="" id="" class="form-control" v-model="form.unit_model_id">
+                                    <option value="">Select model</option>
+                                    <option :value="row.unit_model_id" v-for="(row,index) in unitModels">@{{ row.model_name }}</option>
+                                </select> 
+                                <span v-if="errors.unit_model_id" class="text-danger">
+                                    @{{ errors.unit_model_id[0] }}
+                                </span>
+                            </div>
                         </div>
                     </form>
                 </div>
@@ -101,15 +113,18 @@
 					isEdit: 0,
 					form: {
                         name : '',
-                        status : 'active'
+                        status : 'active',
+						unit_model_id : ''
                     },
 					form_title: '',
 					errors: [],
+					unitModels: []
 				
 				}
 			},
 			created() {
 				this.getItems();
+				this.getModels();
 			},
 			methods: {
 				
@@ -135,6 +150,15 @@
 					axios.get(`${this.base_url}/admin/body_type/get/${body_type_id}`)
 					.then(({data}) => {
 						this.form = data;
+					})
+					.catch((error) => {
+						console.log(error.response);
+					});
+				},
+				getModels() {
+					axios.get(`${this.base_url}/admin/unit_models/get`)
+					.then(({data}) => {
+						this.unitModels = data;
 					})
 					.catch((error) => {
 						console.log(error.response);

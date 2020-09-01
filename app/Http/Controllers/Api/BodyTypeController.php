@@ -10,9 +10,14 @@ use App\BodyType;
 
 class BodyTypeController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        return response()->json(BodyType::where('status','active')->get());
+        $unit_model_id = $request->unit_model_id;
+        return response()->json(
+            BodyType::where([
+                ['status','active'],
+                ['unit_model_id', $unit_model_id],
+            ])->get());
     }
 
   

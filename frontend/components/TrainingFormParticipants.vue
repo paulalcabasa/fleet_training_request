@@ -6,9 +6,9 @@
           <div>
             <div>
               <v-list-tile>
-                <v-list-tile-action>
-                  <v-btn color="success" fab small flat dark @click="addParticipant">
-                    <v-icon medium>add_circle</v-icon>
+                <v-list-tile-action style="min-width:100px;">
+                  <v-btn type="button" color="success"  small @click="addParticipant">
+                    Add
                   </v-btn>
                 </v-list-tile-action>
                 <v-list-tile-content>
