@@ -131,7 +131,6 @@ export default {
     this.displayImages ()
   },
   mounted () {
-    this.fetchEmissionStandards();
     
   },
   methods: {
@@ -143,6 +142,7 @@ export default {
     },
     unitModelPicked (field, value) {
       this.fetchBodyTypes(value);
+      this.fetchEmissionStandards(value);
       this.$store.commit('request/UPDATE_FORM', {key:field,value:value})
     },
     displayImages () {
@@ -160,11 +160,18 @@ export default {
       this.$store.commit('request/BACK_PAGE')
     },
 
-    fetchEmissionStandards () {
+    fetchEmissionStandards (unit_model_id) {
       var self = this;
-      axios.get(`${this.api_url}emission_standards/get`)
+      axios.get(`${this.api_url}emission_standards/get/${unit_model_id}`)
       .then(({data}) => {
-        this.emission_standard_types = data;
+      
+        this.emission_standard_types = [];
+        data.map(emission_standard => {
+          this.emission_standard_types.push({
+            emission_standard_id : emission_standard.emission_standard_id,
+            name : emission_standard.emission_standard.name
+          });
+        });
       })
       .catch((error) => {
        // self.fetchEmissionStandards();
@@ -175,10 +182,15 @@ export default {
       var self = this;
       axios.get(`${this.api_url}body_types/get/${unit_model_id}`)
       .then(({data}) => {
-        this.rear_body_types = data;
+        this.rear_body_types = [];
+        data.map(body_type => {
+          this.rear_body_types.push({
+            body_type_id : body_type.body_type_id,
+            name : body_type.body_type.name
+          });
+        });
       })
       .catch((error) => {
-        //self.fetchBodyTypes();
         console.log(error);
       });
     },

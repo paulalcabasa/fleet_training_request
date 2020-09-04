@@ -7,7 +7,7 @@
                 <h4 class="modal-title">@{{ form_title }}</h4>
             </div>
             <div class="modal-body">
-                <form v-on:keyup.enter="storeItem">
+                <form v-on:submit="storeItem">
                     <input type="hidden" v-model="form.unit_model_id">
                     <div class="form-row">
                         <div class="row">
@@ -40,6 +40,31 @@
                                 @{{ errors.sequence_no[0] }}
                             </span>
                         </div>
+                        <div class="form-group">
+                            <label for="description">Body Type</label>
+                            <vue-tags-input
+                                v-model="bodyType"
+                                :tags="selectedBodyTypes"
+                                name="body_types"
+                                placeholder="Add body types"
+                                :autocomplete-items="bodyTypes"
+                                :validation="bodyTypeValidation"
+                                @tags-changed="newTags => selectedBodyTypes = newTags"
+                            />
+                        </div>
+                        <div class="form-group">
+                            <label for="description">Emission Standards</label>
+                            <vue-tags-input
+                                v-model="emissionStandard"
+                                :tags="selectedEmissionStandards"
+                                name="emissionStandards"
+                                placeholder="Add emission standard"
+                                :autocomplete-items="emissionStandards"
+                                :validation="emissionStandardValidation"
+                                @tags-changed="newTags => selectedEmissionStandards = newTags"
+                            />
+                        </div>
+                        	
                         <div class="row">
                             <div class="form-group col-md-4">
                                 <label v-if="isEdit" for="image">Replace Image</label>

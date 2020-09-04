@@ -22,6 +22,7 @@
 				</button>
 			</div>
 			<div class="box-body">
+			
 				<table id="unit_model_table" class="table table-bordered table-hover">
 					<thead>
 						<tr>
@@ -65,11 +66,18 @@
 @push('scripts')
 	<script src="{{ url('public/libraries/adminlte/jquery.dataTables.min.js') }}"></script>
 	<script src="{{ url('public/libraries/adminlte/dataTables.bootstrap.min.js') }}"></script>
+	<script src="{{ url('public/libraries/js/vue-tags-input.js') }}"></script>
 	<script>
 		new Vue({
 			el: '#app',
 			data() {
 				return {
+					bodyType: '',
+					selectedBodyTypes: [],
+					bodyTypes: [],
+					emissionStandard: '',
+					selectedEmissionStandards: [],
+					emissionStandards: [],
 					items: [],
 					isEdit: 0,
 					form: {},
@@ -77,10 +85,22 @@
 					errors: [],
 					image: '',
 					image2: '',
+					bodyTypeValidation: [{
+						classes: 'avoid-item',
+						rule: tag => !this.bodyTypes.some(bodyType => bodyType.text === tag.text),
+						disableAdd: true,
+					}],
+					emissionStandardValidation : [{
+						classes: 'avoid-item',
+						rule: tag => !this.emissionStandards.some(emissionStandard => emissionStandard.text === tag.text),
+						disableAdd: true,
+					}]
 				}
 			},
 			created() {
 				this.getItems();
+				this.getBodyTypes();
+				this.getEmissionStandards();
 			},
 			methods: {
 				onImageChange(e) {
@@ -116,9 +136,26 @@
 				},
 				getItem(unit_model_id) {
 					axios.get(`${this.base_url}/admin/unit_models/get/${unit_model_id}`)
-					.then(({data}) => {
-						this.form = data;
-						this.image2 = `{{ url('public/images/unit_models/${data.image}') }}`;
+					.then(res => {
+						this.image2 = `{{ url('public/images/unit_models/${res.data.model.image}') }}`;
+						this.form = res.data.model;
+						this.selectedBodyTypes = [];
+						res.data.body_types.map(bodyType => {
+							this.selectedBodyTypes.push({
+								id : bodyType.body_type.body_type_id,
+								text : bodyType.body_type.name,
+								tiClasses : ['ti-valid']
+							});
+						});
+						this.selectedEmissionStandards = [];
+						res.data.emission_standards.map(emissionStandard => {
+							this.selectedEmissionStandards.push({
+								id : emissionStandard.emission_standard.emission_standard_id,
+								text : emissionStandard.emission_standard.name,
+								tiClasses : ['ti-valid']
+							});
+						});
+
 					})
 					.catch((error) => {
 						console.log(error.response);
@@ -126,6 +163,8 @@
 				},
 				storeItem() {
 					this.form.image = this.image;
+					this.form.bodyTypes = this.selectedBodyTypes;
+					this.form.emissionStandards = this.selectedEmissionStandards;
 
 					if (this.isEdit) return this.updateItem();
 					
@@ -140,7 +179,7 @@
 					});
 				},
 				updateItem() {
-					axios.put(`${this.base_url}/admin/unit_models/update/${this.form.unit_model_id}`, this.form)
+					axios.post(`${this.base_url}/admin/unit_models/update/${this.form.unit_model_id}`, this.form)
 					.then(({data}) => {
 						this.getItems();
 						toastr.success('Successfully updated!');
@@ -174,10 +213,7 @@
 				createUnitModel() {
 					this.form_title = 'Add New Unit Model';
 					this.isEdit = 0;
-					this.errors = [];
-					this.form = {};
-					this.image = '';
-					this.image2 = '';
+					this.resetForm();
 					document.getElementById('image').value = '';
 					$('#unit_model_modal').modal('show');
 				},
@@ -196,8 +232,35 @@
 					this.form = {};
 					this.image = '';
 					this.image2 = '';
+					this.selectedBodyTypes = [];
+					this.selectedEmissionStandards = [];
 					document.getElementById('image').value = '';
+				},
+				getBodyTypes() {
+					axios.get('body_type/all').then(res => {
+						res.data.map( data => {
+							this.bodyTypes.push({
+								id : data.body_type_id,
+								text: data.name
+							});
+						});
+					}).catch(err => {
+						alert("There is a problem encountered in loading the body types, please refresh the page.");
+					});
+				},
+				getEmissionStandards() {
+					axios.get('emission_standard/get').then(res => {
+						res.data.map( data => {
+							this.emissionStandards.push({
+								id : data.emission_standard_id,
+								text: data.name
+							});
+						});
+					}).catch(err => {
+						alert("There is a problem encountered in loading the body types, please refresh the page.");
+					});
 				}
+			
 			}
         })
 		document.querySelector('#unit_model_tab').setAttribute('class', 'active');
