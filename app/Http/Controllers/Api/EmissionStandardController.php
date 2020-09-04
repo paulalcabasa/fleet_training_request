@@ -6,13 +6,18 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Image;
 use Storage;
-use App\EmissionStandard;
+use App\UnitModelEmissionType;
 
 class EmissionStandardController extends Controller
 {
-    public function index()
-    {
-        return response()->json(EmissionStandard::where('status','active')->get());
+    public function index(Request $request)
+    {   
+        $unit_model_id = $request->unit_model_id;
+        return response()->json(
+            UnitModelEmissionType::with('emission_standard')
+                ->where('unit_model_id', $unit_model_id)
+                ->get()
+        );
     }
 
 

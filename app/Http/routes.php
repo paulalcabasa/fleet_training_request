@@ -121,7 +121,7 @@ Route::group(['middleware' => ['admin_guard']], function () {
     Route::get('/admin/unit_models/get', 'UnitModelController@index');
     Route::get('/admin/unit_models/get/{unit_model_id}', 'UnitModelController@show');
     Route::post('/admin/unit_models/store', 'UnitModelController@store');
-    Route::put('/admin/unit_models/update/{unit_model_id}', 'UnitModelController@update');
+    Route::post('/admin/unit_models/update/{unit_model_id}', 'UnitModelController@update');
     Route::delete('/admin/unit_models/delete/{unit_model_id}', 'UnitModelController@delete');
 
     // Training Programs
@@ -144,6 +144,7 @@ Route::group(['middleware' => ['admin_guard']], function () {
 
     // Body Types
     Route::get('/admin/body_type/get', 'BodyTypeController@index');
+    Route::get('/admin/body_type/all', 'BodyTypeController@getAll');
     Route::get('/admin/body_type/get/{emission_standard_id}', 'BodyTypeController@show');
     Route::post('/admin/body_type/store', 'BodyTypeController@store');
     Route::get('/admin/body_type/get/{emission_standard_id}', 'BodyTypeController@show');    

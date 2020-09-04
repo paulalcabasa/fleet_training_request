@@ -5,7 +5,7 @@
 Route::get('guest/dealers/get', 'Api\DealerController@index');
 Route::get('guest/unit_models/get', 'Api\UnitModelController@index');
 
-Route::get('emission_standards/get', 'Api\EmissionStandardController@index');
+Route::get('emission_standards/get/{unit_model_id}', 'Api\EmissionStandardController@index');
 Route::get('body_types/get', 'Api\BodyTypeController@index');
 Route::get('body_types/get/{unit_model_id}', 'Api\BodyTypeController@index');
 

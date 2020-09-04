@@ -8,6 +8,9 @@ use Image;
 use Storage;
 use App\UnitModel;
 use App\Http\Requests;
+use App\UnitModelBodyType;
+use App\UnitModelEmissionType;
+use DB;
 
 class UnitModelController extends Controller
 {
@@ -18,7 +21,15 @@ class UnitModelController extends Controller
 
     public function show($unit_model_id)
     {
-        return response()->json(UnitModel::findOrFail($unit_model_id));
+        return response()->json([
+            'model' => UnitModel::findOrFail($unit_model_id),
+            'body_types' => UnitModelBodyType::with('body_type')
+                                ->where('unit_model_id', $unit_model_id)
+                                ->get(),
+            'emission_standards' => UnitModelEmissionType::with('emission_standard')
+                                ->where('unit_model_id', $unit_model_id)
+                                ->get()
+        ]);
     }
 
     public function store(Request $request)
@@ -41,8 +52,38 @@ class UnitModelController extends Controller
 		$query->description = $request->description;
 		$query->sequence_no = $request->sequence_no;
 		$query->image = $name;
-		$query->save();
+        $query->save(); 
+        
+        if(!empty($request->bodyTypes)){
+            
+            foreach($request->bodyTypes as $bodyType){
+                $unitBody = new UnitModelBodyType;
+                $unitBody->unit_model_id = $query->unit_model_id;
+                $unitBody->body_type_id = $bodyType['id'];
+                $unitBody->save();
+            }
+        }  
 
+        if(!empty($request->bodyTypes)){
+            
+            foreach($request->bodyTypes as $bodyType){
+                $unitBody = new UnitModelBodyType;
+                $unitBody->unit_model_id = $query->unit_model_id;
+                $unitBody->body_type_id = $bodyType['id'];
+                $unitBody->save();
+            }
+        }
+
+        if(!empty($request->emissionStandards)){
+            
+            foreach($request->emissionStandards as $emissionStandard){
+                $emissionStandard = new UnitModelEmissionType;
+                $emissionStandard->unit_model_id = $query->unit_model_id;
+                $emissionStandard->emission_standard_id = $emissionStandard['id'];
+                $emissionStandard->save();
+            }
+        }
+      
 		return response()->json($query);
     }
 
@@ -67,6 +108,32 @@ class UnitModelController extends Controller
             Image::make($request->get('image'))->save(public_path('images/unit_models/').$name);
             $query->image = $name;
             Storage::disk('unit_models')->delete($old_image);
+        }
+
+        if(!empty($request->bodyTypes)){
+            DB::table('unit_model_body_types')
+                ->where('unit_model_id', $unit_model_id)
+                ->delete();
+            
+            foreach($request->bodyTypes as $bodyType){
+                $unitBody = new UnitModelBodyType;
+                $unitBody->unit_model_id = $unit_model_id;
+                $unitBody->body_type_id = $bodyType['id'];
+                $unitBody->save();
+            }
+        }   
+
+        if(!empty($request->emissionStandards)){
+            DB::table('unit_model_emission_types')
+                ->where('unit_model_id', $unit_model_id)
+                ->delete();
+
+            foreach($request->emissionStandards as $row){
+                $emissionStandard = new UnitModelEmissionType;
+                $emissionStandard->unit_model_id = $unit_model_id;
+                $emissionStandard->emission_standard_id = $row['id'];
+                $emissionStandard->save();
+            }
         }
         
 		$query->save();

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Image;
 use Storage;
 use App\BodyType;
+use App\UnitModelBodyType;
 
 class BodyTypeController extends Controller
 {
@@ -14,10 +15,8 @@ class BodyTypeController extends Controller
     {
         $unit_model_id = $request->unit_model_id;
         return response()->json(
-            BodyType::where([
-                ['status','active'],
-                ['unit_model_id', $unit_model_id],
-            ])->get());
+            UnitModelBodyType::with('body_type')->where('unit_model_id', $unit_model_id)->get()
+        );
     }
 
   

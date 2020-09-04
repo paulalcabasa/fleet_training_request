@@ -19,9 +19,16 @@ class BodyTypeController extends Controller
 
     }
 
+    public function getAll()
+    {
+        return response()->json(BodyType::all());
+    }
+
     public function show($body_type_id)
     {
-        return response()->json(BodyType::findOrFail($body_type_id));
+        return response()->json(
+            BodyType::findOrFail($body_type_id)
+        );
     }
 
     public function store(Request $request)
