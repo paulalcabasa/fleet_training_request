@@ -22,9 +22,10 @@ class RescheduleController extends Controller
         $training_request = TrainingRequest::findOrFail($training_request_id);
         $training_request->training_date = $training_date;
         $training_request->training_time = $training_time;
-        $training_request->status = 'approved';
+        if($training_request->status == 'reschedule' || $training_request->status == 'rescheduled'){
+            $training_request->status = 'approved';
+        }
         $training_request->save();
-
         
         // delete previous schedule
         $delete_sched = DB::table('schedules')->where('training_request_id',$training_request_id)->delete();

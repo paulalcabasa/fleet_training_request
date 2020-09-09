@@ -127,7 +127,7 @@
 												Approver Statuses
 											</a>
 										</li>
-										<li v-if="item.status == 'reschedule'" class="text-left">
+										<li class="text-left">
 											<a v-on:click="editSchedule(item.training_request_id)">
 												<i class="fa fa-pencil text-default"></i>
 												Edit Schedule
@@ -546,6 +546,21 @@
 								console.log(error.response);
 							});
 						}
+					});
+				},
+				updateRequest(){
+					axios.put(`${this.base_url}/admin/update_request_details`, {
+						training_request : this.training_request
+					})
+					.then( res => {
+						swal('Success!', res.data.message , 'success', {timer:4000,button:false});
+					})
+					.then( () => {
+						$('#request_details_modal').modal('hide');
+					})
+					.catch((error) => {
+						console.log(error.response);
+						swal('Ooops!', 'Something went wrong.', 'error', {timer:4000,button:false});
 					});
 				}
 			}

@@ -79,4 +79,6 @@ class TrainingRequest extends Model
     {
         return $this->hasOne('App\DealerDetail');
     }
+
+    
 }
