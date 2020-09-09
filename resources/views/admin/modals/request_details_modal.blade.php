@@ -22,28 +22,28 @@
 							<div class="row">
 								<div class="form-group col-md-6">
 									<label>Company Name</label>
-									<input type="text" v-model="training_request.company_name" class="form-control" readonly>
+									<input type="text" v-model="training_request.company_name" class="form-control" />
 								</div>
 								<div class="form-group col-md-6">
 									<label>Office Address</label>
-									<input type="text" v-model="training_request.office_address" class="form-control" readonly>
+									<input type="text" v-model="training_request.office_address" class="form-control" />
 								</div>
 								<div class="form-group col-md-6">
 									<label>Contact Person</label>
-									<input type="text" v-model="training_request.contact_person" class="form-control" readonly>
+									<input type="text" v-model="training_request.contact_person" class="form-control" />
 								</div>
 								<div class="form-group col-md-6">
 									<label>Position</label>
-									<input type="text" v-model="training_request.position" class="form-control" readonly>
+									<input type="text" v-model="training_request.position" class="form-control" />
 								</div>
 								<div class="form-group col-md-6">
 									<label>Email Address</label>
-									<input type="text" v-model="training_request.email" class="form-control" readonly>
+									<input type="text" v-model="training_request.email" class="form-control" />
 								</div>
 
 								<div class="form-group col-md-6">
 									<label>Contact No</label>
-									<input type="text" v-model="training_request.contact_number" class="form-control" readonly>
+									<input type="text" v-model="training_request.contact_number" class="form-control" />
 								</div>
 								<div class="form-group col-md-6">
 									<label>Selling Dealer</label>
@@ -220,8 +220,9 @@
 
 	
 			</div>
-			<div class="modal-footer" v-if="training_request.status == 'new'">
+			<div class="modal-footer" >
 				<button 
+					v-if="training_request.status == 'new'"
 					type="button" 
 					class="btn btn-sm btn-flat btn-danger" 
 					v-on:click="willDeny(training_request.training_request_id)" 
@@ -229,11 +230,19 @@
 					<i class="fa fa-times"></i> Deny
 				</button>
 				<button 
+					v-if="training_request.status == 'new'"
                 	class="btn btn-sm btn-success" 
                 	v-on:click="willApprove"
                 >
                     <i class="fa fa-check-circle"></i>&nbsp;
                     Approve
+                </button>
+				<button 
+                	class="btn btn-sm btn-primary" 
+                	v-on:click="updateRequest"
+                >
+                    <i class="fa fa-save"></i>&nbsp;
+                    Save Changes
                 </button>
 			</div>
 		</div>

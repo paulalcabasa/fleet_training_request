@@ -87,6 +87,7 @@ Route::group(['middleware' => ['admin_guard']], function () {
 
     // Request Approval
     Route::put('/admin/update_request/{training_request_id}', 'ApproveRequestController@update_request');
+    Route::put('/admin/update_request_details', 'TrainingRequestController@update_request');
 
     Route::get('/admin/training_requests/get', 'TrainingRequestController@index');
     Route::get('/admin/training_requests/get/{training_request_id}', 'TrainingRequestController@show');

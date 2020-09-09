@@ -185,4 +185,19 @@ class TrainingRequestController extends Controller
 			return false;
 		}
 	}
+
+	public function update_request(Request $request)
+	{
+		$training_request = TrainingRequest::findOrFail($request->training_request['training_request_id']);
+		$training_request->email = $request->training_request['email'];
+		$training_request->company_name = $request->training_request['company_name'];
+		$training_request->contact_number = $request->training_request['contact_number'];
+		$training_request->contact_person = $request->training_request['contact_person'];
+		$training_request->office_address = $request->training_request['office_address'];
+		$training_request->position = $request->training_request['position'];
+		$training_request->save();
+		return response()->json([
+			'message' => 'Request has been updated!'
+		], 200);
+	}
 }
