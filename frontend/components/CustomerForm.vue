@@ -93,8 +93,8 @@
             <v-layout justify-center row wrap>
               <v-flex xs6 sm4>
                 <v-select
-                label="Selling Dealer"
-                name="Selling Dealer"
+                label="Isuzu Dealer"
+                name="Isuzu Dealer"
                 v-model="selling_dealer"
                 v-validate="'required'"
                 :error-messages="errors.first('Selling Dealer')"
