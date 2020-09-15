@@ -12,10 +12,10 @@
             
             <v-layout justify-center row wrap>
               <v-flex xs6 sm8>
-                By click below button, I hereby give my consent to Isuzu Philippines Corporation (IPC), Its authorized
-                representatives, dealerships and agents to the collection, transmission, distribution, retention
-                and destruction of my personal information in full compliance with the Data Privacy Act of 2012 of
-                the Republic of the Philippines. Read full data privacy policy at 
+                By clicking the button below, I hereby give my consent to the collection and processing of my personal information 
+                to Isuzu Philippines Corporation (IPC), its authorized representatives, dealerships and agents, 
+                in full compliance with the Data Privacy Act of 2012 of the Republic of the Philippines. 
+                Please read full data privacy policy at
                 <a href="https://www.isuzuphil.com/about/privacy-policy">https://www.isuzuphil.com/about/privacy-policy</a>
               </v-flex>
             </v-layout>
