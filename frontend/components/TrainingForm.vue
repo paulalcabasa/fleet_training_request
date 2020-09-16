@@ -193,9 +193,9 @@ export default {
         'Online (Video Conference)'
       ], // Isuzu Training Center
       training_times: [
-        { label : 'AM', value: 'AM' },
-        { label : 'PM', value: 'PM' },
-        { label : 'Whole day', value: 'Whole day' },
+        { label : 'AM (9AM - 12PM)', value: 'AM' },
+        { label : 'PM (1PM - 4PM)', value: 'PM' },
+        { label : 'Whole day (9AM - 4PM)', value: 'Whole day' },
       ],
       disabledDates: [],
       shouldDisable: false,
