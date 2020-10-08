@@ -146,9 +146,9 @@ class SendQueuedEmails extends Command
                     'redirect_url' => $value['redirect_url']
 				]);
 
-           /*      $query = Email::findOrFail($value['email_id']);
+                 $query = Email::findOrFail($value['email_id']);
                 $query->sent_at = new \DateTime();
-                $query->save(); */
+                $query->save();
 
                 $bar->advance();
             }
