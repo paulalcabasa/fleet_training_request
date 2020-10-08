@@ -50,6 +50,7 @@ class SendQueuedEmails extends Command
     public function handle()
     {
         $pending_emails = Email::where('sent_at', NULL)->get();
+        //$pending_emails = Email::where('email_id', 194)->get();
         $bar = $this->output->createProgressBar(count($pending_emails));
 		if ($pending_emails) {
             foreach ($pending_emails as $value) {
@@ -145,9 +146,9 @@ class SendQueuedEmails extends Command
                     'redirect_url' => $value['redirect_url']
 				]);
 
-                $query = Email::findOrFail($value['email_id']);
+           /*      $query = Email::findOrFail($value['email_id']);
                 $query->sent_at = new \DateTime();
-                $query->save();
+                $query->save(); */
 
                 $bar->advance();
             }

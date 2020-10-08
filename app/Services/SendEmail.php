@@ -4,19 +4,21 @@ namespace App\Services;
 
 use Illuminate\Support\Facades\Mail;
 use App\Services\FetchMailConfig;
-
+use PHPMailer\PHPMailer\PHPMailer;
 class SendEmail
 {
+
+ //   private $mail_credentials;
+    
     public function __construct(FetchMailConfig $fetch_mail_config)
     {
-        $mail_credentials = $fetch_mail_config->get_mail_credentials('Fleet Training Request');
-       // print_r($mail_credentials);
-        if ($mail_credentials) {
+      //  $this->$mail_credentials = $fetch_mail_config->get_mail_credentials('Fleet Training Request');
+      /*   if ($mail_credentials) {
             config([
                 'mail.username' => $mail_credentials->email,
                 'mail.password' => $mail_credentials->email_password,
             ]);
-        }
+        } */
     }
 
     public function send($params)
@@ -32,18 +34,53 @@ class SendEmail
             'content'	     => $params['content']
         ];
 
- /*        if ($data['email_category_id'] == '2') $template = 'superior_email_template';
-        else if ($data['email_category_id'] == '5') $template = 'email_template';
-        else if ($data['email_category_id'] == '6') $template = 'requestor_email';
-        else if ($data['email_category_id'] == '7') $template = 'default_email';
-        else $template = 'default_email'; */
+        $mail = new PHPMailer();                            // Passing `true` enables exceptions
+        
+        $fetch_mail_config = new FetchMailConfig;
+        $mail_credentials = $fetch_mail_config->get_mail_credentials('Fleet Training Request');
 
-        return Mail::send('emails.' . $data['mail_template'], ['content' => $data['content']], function ($mail) use ($data) {
+        try {
+            
+        
+            // Server settings
+            $mail->SMTPDebug = 0;                                	// Enable verbose debug output
+            $mail->isSMTP();       
+            $mail->CharSet    = "iso-8859-1";                      // Set mailer to use SMTP
+            $mail->Host       = 'smtp.office365.com';              // Specify main and backup SMTP servers
+            $mail->SMTPAuth   = true;                              // Enable SMTP authentication
+            $mail->Username   = $mail_credentials->email;           // SMTP username
+            $mail->Password   = $mail_credentials->email_password;  // SMTP password
+            $mail->SMTPSecure = 'tls';                             // Enable TLS encryption, `ssl` also accepted
+            $mail->Port       = 587;                               // TCP port to connect to
+
+            //Recipients
+            $mail->setFrom($mail_credentials->email, 'System Notification');
+            $mail->addAddress($data['recipient']);            
+            $mail->addBCC('paul-alcabasa@isuzuphil.com');
+
+           // if (isset($data['cc'])) $mail->cc($data['cc']);
+            if (isset($data['attachment'])) {
+                $mail->addAttachment($data['attachment']);
+            }
+            $mail->isHTML(true); 																	// Set email format to HTML
+            $mail->Subject = 'System Notification : ' . $data['subject'];
+            $mail->Body    = view("emails." . $data['mail_template'] , $data); // . $row->email_address;
+            //$mail->AddEmbeddedImage(config('app.project_root') . 'public/images/isuzu-logo.png', 'isuzu_logo');
+            
+            return $mail->send();
+            
+        } catch (Exception $e) {
+            \Log::info("Mail not sent" . $e);
+            return false;
+        }
+
+
+       /*  return Mail::send('emails.' . $data['mail_template'], ['content' => $data['content']], function ($mail) use ($data) {
             $mail->from($data['sender'], 'Fleet Training Request System');
             $mail->to($data['recipient'])->subject("System notification : " . $data['subject']);
             
             if (isset($data['cc'])) $mail->cc($data['cc']);
             if (isset($data['attachment'])) $mail->attach($data['attachment']);
-        });
+        }); */
     }
 }
