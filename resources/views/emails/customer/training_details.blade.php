@@ -314,7 +314,7 @@
 							<table>
 								<tr>
 									<td valign="top" align="center" style="font-size:20px; color:red;font-weight:bold;">
-										<img align="center" src="<?php echo $message->embed(config('app.pub_url') . '/public/images/warning-logo.png') ?>" alt="image not found" width="30" >
+										
 									</td>
 									
 								</tr>
