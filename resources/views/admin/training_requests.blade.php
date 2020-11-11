@@ -133,6 +133,12 @@
 												Edit Schedule
 											</a>
 										</li>
+										<li class="text-left">
+											<a :href="base_url + '/admin/participants/' + item.training_request_id">
+												<i class="fa fa-users text-primary"></i>
+												Participants
+											</a>
+										</li>
 										<!-- <li class="text-left">
 											<a v-on:click="showDesignatedTrainors(item.training_request_id)">
 												<i class="fa fa-users text-default"></i>
