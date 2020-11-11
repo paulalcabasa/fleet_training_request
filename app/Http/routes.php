@@ -151,6 +151,13 @@ Route::group(['middleware' => ['admin_guard']], function () {
     Route::get('/admin/body_type/get/{emission_standard_id}', 'BodyTypeController@show');    
     Route::put('/admin/body_type/update/{emission_standard_id}', 'BodyTypeController@update');
 
+    // Participants
+    Route::get('/admin/participants/{training_request_id}', 'ParticipantController@index');
+    Route::get('/admin/participants/get/{training_request_id}', 'ParticipantController@getParticipants');
+    Route::post('/admin/participant/store', 'ParticipantController@store');
+    Route::put('/admin/participant/update/{id}', 'ParticipantController@update');
+    Route::delete('/admin/participant/delete/{id}', 'ParticipantController@destroy');
+    
     // ============== Views ================ //
     Route::get('admin', function() { return redirect()->route('training_requests'); });
     Route::get('admin/training_requests', function() { return view('admin.training_requests'); })->name('training_requests');
