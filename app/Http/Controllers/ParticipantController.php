@@ -42,8 +42,8 @@ class ParticipantController extends Controller
 		$query->first_name = $request->first_name;
 		$query->middle_name = $request->middle_name;
 		$query->last_name = $request->last_name;
-	    $query->result = $request->result;
-	    $query->remarks = $request->remarks;
+	    $query->position = $request->position;
+	    $query->total_score = $request->total_score;
 	    $query->date_created = Carbon::now();
 	    $query->created_by = $request->session()->get('employee_id');
 		$query->save();
@@ -61,8 +61,8 @@ class ParticipantController extends Controller
 		$query->first_name = $request->first_name;
 		$query->middle_name = $request->middle_name;
 		$query->last_name = $request->last_name;
-	    $query->result = $request->result;
-	    $query->remarks = $request->remarks;
+	    $query->position = $request->position;
+	    $query->total_score = $request->total_score;
 	    $query->date_updated = Carbon::now();
 	    $query->updated_by = $request->session()->get('employee_id');
         $query->save();
