@@ -52,4 +52,39 @@ class Reports extends Model
         $query = DB::select($sql,$params);
         return $query;
     }
+
+    public function getTrainingRequests($params){
+        // $sql = "SELECT tp.training_program_id, 
+        //             tp.program_title,
+        //             tr.company_name,
+        //             tr.training_date,
+        //             tr.training_request_id
+        //         FROM training_request_programs trp
+        //             LEFT JOIN training_requests tr
+        //                 ON tr.training_Request_id = trp.training_request_id
+        //             LEFT JOIN training_programs tp
+        //                 ON tp.training_program_id = trp.training_program_id
+        //         WHERE tr.training_date BETWEEN :start_date AND :end_date
+        //         ORDER BY training_date DESC";
+        $sql = "SELECT tp.training_program_id, 
+                    tp.program_title,
+                    tr.company_name,
+                    tr.training_date,
+                    tpc.first_name,
+                    tpc.middle_name,
+                    tpc.last_name,
+                    tpc.total_score,
+                    tr.training_request_id
+                FROM training_participants tpc
+                    LEFT JOIN training_request_programs trp
+                    ON trp.training_request_id = tpc.training_request_id
+                    LEFT JOIN training_requests tr
+                        ON tr.training_Request_id = trp.training_request_id
+                    LEFT JOIN training_programs tp
+                        ON tp.training_program_id = trp.training_program_id
+                WHERE tr.training_date BETWEEN :start_date AND :end_date
+                    ORDER BY training_date DESC";
+        $query = DB::select($sql, $params);
+        return $query;
+    }
 }

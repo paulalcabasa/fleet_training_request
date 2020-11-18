@@ -46,4 +46,15 @@ class ReportsController extends Controller
         
         })->download('xlsx');
     }
+
+    public function getTrainingRequestSummary(Request $request, Reports $report){
+        $params = [
+            'start_date' => $request->start_date,
+            'end_date' => $request->end_date
+        ];
+
+        $data = $report->getTrainingRequests($params);
+
+        return $data;
+    }
 }

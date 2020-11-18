@@ -158,6 +158,10 @@ Route::group(['middleware' => ['admin_guard']], function () {
     Route::put('/admin/participant/update/{id}', 'ParticipantController@update');
     Route::delete('/admin/participant/delete/{id}', 'ParticipantController@destroy');
     
+
+    // Training requests
+    Route::post('/admin/reports/training_requests/get', 'ReportsController@getTrainingRequestSummary');
+
     // ============== Views ================ //
     Route::get('admin', function() { return redirect()->route('training_requests'); });
     Route::get('admin/training_requests', function() { return view('admin.training_requests'); })->name('training_requests');
@@ -171,6 +175,7 @@ Route::group(['middleware' => ['admin_guard']], function () {
     Route::get('admin/special_trainings', function() { return view('admin.special_trainings'); })->name('special_trainings');
     Route::get('admin/calendar', function() { return view('admin.calendar'); })->name('calendar');
     Route::get('report/request_summary', function() { return view('reports.request_summary'); })->name('request_summary');
+    Route::get('report/training_summary', function() { return view('reports.training_summary'); })->name('training_summary');
     Route::get('admin/emission_standards', function() { return view('admin.emission_standard'); })->name('emission_standards');
     Route::get('admin/body_types', function() { return view('admin.body_types'); })->name('body_types');
     
