@@ -87,5 +87,12 @@
                 <span>Request Summary</span>
             </a>
         </li>
+        <li class="header">Records</li>
+        <li id="training_summary_tab">
+            <a href="{{ route('training_summary') }}">
+                <i class="fa fa-caret-right"></i>&nbsp; 
+                <span>Fleet Database</span>
+            </a>
+        </li>
     </ul>
 </section>
